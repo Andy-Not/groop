@@ -9,18 +9,18 @@ import org.springframework.security.core.GrantedAuthority;
 public class Roles implements GrantedAuthority {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String athority;
-    @ManyToOne
+    private String authority;
+    @ManyToOne(optional = false)
     private Member member;
 
     public Roles(){}
 
-    public Roles(String athority) {
-        this.athority = athority;
+    public Roles(String authority) {
+        this.authority = authority;
     }
 
-    public void setAthority(String athority) {
-        this.athority = athority;
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 
     public Member getMember() {
@@ -41,6 +41,6 @@ public class Roles implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return athority;
+        return authority;
     }
 }
