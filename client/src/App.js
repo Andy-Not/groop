@@ -2,11 +2,13 @@ import { Button, Input } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 function App() {
   const [code, setCode] = useState("");
+  const [key, setKey] = useState("");
 
   useEffect(() => {
     setCode(randomId());
   }, []);
 
+  console.log(key);
   const randomId = function (length = 6) {
     return (
       "#" +
@@ -15,6 +17,7 @@ function App() {
         .substring(2, length + 2)
     );
   };
+
   return (
     <>
       {code}
