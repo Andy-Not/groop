@@ -1,17 +1,18 @@
 package com.groop.server.domain;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * @author joandy alejo garcia
  */
 @Entity
-public class Member {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Member implements UserDetails{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
@@ -20,8 +21,35 @@ public class Member {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new Roles("ROLE_MEMBER"));
+        return roles;
     }
 
     public String getPassword() {
@@ -36,7 +64,6 @@ public class Member {
         this.id = id;
     }
 
-    @Id
     public Long getId() {
         return id;
     }

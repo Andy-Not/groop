@@ -1,13 +1,14 @@
 package com.groop.server.domain;
-
 import javax.persistence.*;
 
 /**
  * @author joandy alejo garcia
  */
 @Entity
+@Table
 public class Task {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String status;
     private String Title;
@@ -51,7 +52,6 @@ public class Task {
         this.id = id;
     }
 
-    @Id
     public Long getId() {
         return id;
     }
