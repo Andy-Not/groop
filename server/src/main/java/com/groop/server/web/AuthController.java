@@ -1,12 +1,18 @@
 package com.groop.server.web;
 
+import com.groop.server.domain.Member;
 import com.groop.server.dto.AuthCredentialsRequest;
+import com.groop.server.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +23,11 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    JwtUtil jwtUtil;
+
     @PostMapping("login")
-    public ResponseEntity<?> login (AuthCredentialsRequest req) {
+    public ResponseEntity<?> login (@RequestBody AuthCredentialsRequest request) {
         try {
             Authentication authenticate = authenticationManager
                     .authenticate(
@@ -27,18 +36,16 @@ public class AuthController {
                             )
                     );
 
-            User user = (User) authenticate.getPrincipal();
+            Member user = (Member) authenticate.getPrincipal();
 
             return ResponseEntity.ok()
                     .header(
                             HttpHeaders.AUTHORIZATION,
-                            jwtTokenUtil.generateAccessToken(user)
+                            jwtUtil.generateToken(user)
                     )
-                    .body(userViewMapper.toUserView(user));
+                    .body(user);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        return ResponseEntity.ok(null);
     }
 }
