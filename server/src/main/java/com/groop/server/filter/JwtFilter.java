@@ -39,11 +39,11 @@ public class JwtFilter extends OncePerRequestFilter {
         final String token = header.split(" ")[1].trim();
         // Get user identity and set it on the spring security context
         UserDetails userDetails = userRepository
-                .findByUsername(JwtUtil.getUsernameFromToken(token))
+                .findByUsername(jwtUtil.getUsernameFromToken(token))
                 .orElse(null);
 
         // Get jwt token and validate
-        if (!JwtUtil.validateToken(token, userDetails)) {
+        if (!jwtUtil.validateToken(token, userDetails)) {
             chain.doFilter(request, response);
             return;
         }

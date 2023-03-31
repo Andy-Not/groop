@@ -1,6 +1,7 @@
 package com.groop.server.util;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,10 +19,11 @@ import io.jsonwebtoken.Jwts;
 @Component
 public class JwtUtil implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -2550185165626007488L;
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-    @Value("${jwt.secret}")
-    private static String secret;
+//    @Value("${jwt.secret}")
+    private static String secret = "askljdasldjskldskl";
 
     public static String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
