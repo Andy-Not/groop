@@ -10,18 +10,32 @@ import {
   Stack,
   InputRightElement,
   Button,
-  FormControl, FormHelperText,
+  FormControl,
+  FormHelperText,
 } from "@chakra-ui/react";
-import  {FaUserAlt, FaLock} from "react-icons/fa";
-import {useState} from "react";
-
-
+import { FaUserAlt, FaLock } from "react-icons/fa";
+import { useState } from "react";
 
 const SignIn = () => {
-  const[showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const rqBody = { username: "andy", password: "password" };
+  fetch("api/auth/login", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "post",
+    body: JSON.stringify(rqBody),
+  })
+    .then((response) => Promise.all([response.json(), response.headers]))
+    .then(([body, headers]) => {
+      const auth = headers.get("authorization");
+      console.log(auth);
+      console.log(body);
+    });
+
   const handleShowClick = () => {
     setShowPassword(!showPassword);
-  }
+  };
   return (
     <Flex backgroundColor={"gray.200"}>
       <VStack>
@@ -30,14 +44,20 @@ const SignIn = () => {
           <Stack>
             <FormControl>
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<FaUserAlt/>} />
+                <InputLeftElement
+                  pointerEvents="none"
+                  children={<FaUserAlt />}
+                />
                 <Input type="text" placeholder="Username" />
               </InputGroup>
             </FormControl>
             <FormControl>
               <InputGroup>
-                <InputLeftElement pointerEvents="none" children={<FaLock/>} />
-                <Input type={showPassword ? "text" : "password"} placeholder="Password" />
+                <InputLeftElement pointerEvents="none" children={<FaLock />} />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                />
                 <InputRightElement>
                   <Button h="1.75rem" size="sm" onClick={handleShowClick}>
                     {showPassword ? "Hide" : "Show"}
@@ -48,10 +68,7 @@ const SignIn = () => {
                 <Link>forgot password?</Link>
               </FormHelperText>
             </FormControl>
-            <Button>
-              login
-            </Button>
-
+            <Button>login</Button>
           </Stack>
         </Box>
         <Link color={"red.300"}>Create a new account</Link>
