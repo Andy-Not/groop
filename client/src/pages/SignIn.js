@@ -14,25 +14,31 @@ import {
   FormHelperText,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const rqBody = { username: "andy", password: "password" };
-  fetch("api/auth/login", {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "post",
-    body: JSON.stringify(rqBody),
-  })
-    .then((response) => Promise.all([response.json(), response.headers]))
-    .then(([body, headers]) => {
-      const auth = headers.get("authorization");
-      console.log(auth);
-      console.log(body);
-    });
+  const [jwt, setJwt] = useState("");
 
+  useEffect(() => {
+    console.log("hello");
+    const rqBody = { username: "andy", password: "password" };
+    fetch("api/auth/login", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "post",
+      body: JSON.stringify(rqBody),
+    })
+      .then((response) => Promise.all([response.json(), response.headers]))
+      .then(([body, headers]) => {
+        const jwt = headers.get("authorization");
+        setJwt(jwt);
+        console.log(body);
+      });
+  }, [jwt]);
+
+  console.log(jwt);
   const handleShowClick = () => {
     setShowPassword(!showPassword);
   };
