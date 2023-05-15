@@ -19,7 +19,6 @@ import { useState, useEffect } from "react";
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [jwt, setJwt] = useState("");
-
   useEffect(() => {
     console.log("hello");
     const rqBody = { username: "andy", password: "password" };
@@ -32,8 +31,7 @@ const SignIn = () => {
     })
       .then((response) => Promise.all([response.json(), response.headers]))
       .then(([body, headers]) => {
-        const jwt = headers.get("authorization");
-        setJwt(jwt);
+        setJwt(headers.get("authorization"));
         console.log(body);
       });
   }, [jwt]);
