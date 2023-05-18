@@ -1,5 +1,6 @@
 package com.groop.server.domain;
 import javax.persistence.*;
+import java.util.ArrayList;
 
 /**
  * @author joandy alejo garcia
@@ -11,8 +12,8 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String status;
-    private String Title;
-    private String Description;
+    private String title;
+    private String description;
     @ManyToOne(optional = false)
     private Member member;
 
@@ -25,19 +26,19 @@ public class Task {
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public Member getMember() {
