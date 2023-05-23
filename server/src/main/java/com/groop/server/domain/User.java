@@ -10,7 +10,8 @@ import java.util.List;
  * @author joandy alejo garcia
  */
 @Entity
-public class Member implements UserDetails{
+@Table(name = "users")
+public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

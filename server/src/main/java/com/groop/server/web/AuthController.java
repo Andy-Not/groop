@@ -1,6 +1,6 @@
 package com.groop.server.web;
 
-import com.groop.server.domain.Member;
+import com.groop.server.domain.User;
 import com.groop.server.dto.AuthCredentialsRequest;
 import com.groop.server.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class AuthController {
                             )
                     );
 
-            Member user = (Member) authenticate.getPrincipal();
+            User user = (User) authenticate.getPrincipal();
 
             return ResponseEntity.ok()
                     .header(
@@ -47,5 +47,8 @@ public class AuthController {
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+    @PostMapping void createKanban(String title){
+
     }
 }

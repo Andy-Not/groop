@@ -11,7 +11,7 @@ public class Roles implements GrantedAuthority {
     private Long id;
     private String authority;
     @ManyToOne(optional = false)
-    private Member member;
+    private User user;
 
     public Roles(){}
 
@@ -23,12 +23,12 @@ public class Roles implements GrantedAuthority {
         this.authority = authority;
     }
 
-    public Member getMember() {
-        return member;
+    public User getMember() {
+        return user;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setMember(User user) {
+        this.user = user;
     }
 
     public void setId(Long id) {

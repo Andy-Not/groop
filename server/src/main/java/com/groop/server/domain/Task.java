@@ -1,12 +1,12 @@
 package com.groop.server.domain;
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author joandy alejo garcia
  */
 @Entity
-@Table
+@Table(name = "tasks")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +15,37 @@ public class Task {
     private String title;
     private String description;
     @ManyToOne(optional = false)
-    private Member member;
+    private User user;
+
+    @OneToOne
+    private Kanban kanban;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Kanban getBoard() {
+        return kanban;
+    }
+
+    public void setBoard(Kanban kanban) {
+        this.kanban = kanban;
+    }
+
+    @OneToMany
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public String getStatus() {
         return status;
@@ -41,12 +71,12 @@ public class Task {
         this.description = description;
     }
 
-    public Member getMember() {
-        return member;
+    public User getMember() {
+        return user;
     }
 
-    public void setMember(Member assignedTo) {
-        this.member = assignedTo;
+    public void setMember(User assignedTo) {
+        this.user = assignedTo;
     }
 
     public void setId(Long id) {
