@@ -17,7 +17,13 @@ public class KanbanServiceImpl implements KanbanService{
 
 
     @Override
-    public Kanban addNewKanban(KanbanDTO kanbanDTO) {
-        return null;
+    public Kanban saveNewKanban(KanbanDTO kanbanDTO) {
+        return kanbanRepository.save(convertKanbanDTOToKanban(kanbanDTO));
+    }
+
+    public Kanban convertKanbanDTOToKanban(KanbanDTO kanbanDTO){
+        Kanban kanban = new Kanban();
+        kanban.setTitle(kanbanDTO.getTitle());
+        return kanban;
     }
 }
