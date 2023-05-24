@@ -6,6 +6,6 @@ import com.groop.server.dto.KanbanDTO;
 /**
  * @author joandy alejo garcia
  */
-public interface KanbanDAO {
-    Kanban newKanban(KanbanDTO kanbanDTO);
+public interface KanbanService {
+    Kanban addNewKanban(KanbanDTO kanbanDTO);
 }
