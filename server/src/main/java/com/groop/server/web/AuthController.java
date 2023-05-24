@@ -2,6 +2,8 @@ package com.groop.server.web;
 
 import com.groop.server.domain.User;
 import com.groop.server.dto.AuthCredentialsRequest;
+import com.groop.server.dto.KanbanDTO;
+import com.groop.server.service.KanbanService;
 import com.groop.server.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,9 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private KanbanService kanbanService;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -48,7 +53,13 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-    @PostMapping void createKanban(String title){
+    @PostMapping("/addKanban")
+    ResponseEntity<?> createKanban(@RequestBody KanbanDTO kanbanDTO){
+        try {
+            return new ResponseEntity<>(kanbanService.saveNewKanban(kanbanDTO), HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity<>("something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 }
