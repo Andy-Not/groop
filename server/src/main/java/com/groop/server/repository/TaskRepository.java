@@ -9,7 +9,7 @@ import java.util.Optional;
 /**
  * @author joandy alejo garcia
  */
-public interface TasKRepository extends JpaRepository<Task, Long> {
+public interface TaskRepository extends JpaRepository<Task, Long> {
     Optional<List<Task>> findAllTaskByStatus(String status);
     Optional<Task> findAllByTitle(String title);
 }

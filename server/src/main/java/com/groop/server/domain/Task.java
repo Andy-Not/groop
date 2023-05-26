@@ -14,27 +14,6 @@ public class Task {
     private String status;
     private String title;
     private String description;
-    @ManyToOne(optional = false)
-    private User user;
-
-    @OneToOne
-    private Kanban kanban;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Kanban getBoard() {
-        return kanban;
-    }
-
-    public void setBoard(Kanban kanban) {
-        this.kanban = kanban;
-    }
 
     @OneToMany
     private List<Comment> comments;
@@ -69,14 +48,6 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public User getMember() {
-        return user;
-    }
-
-    public void setMember(User assignedTo) {
-        this.user = assignedTo;
     }
 
     public void setId(Long id) {

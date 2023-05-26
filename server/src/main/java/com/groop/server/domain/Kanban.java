@@ -4,7 +4,9 @@ import com.sun.istack.NotNull;
 import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author joandy alejo garcia
@@ -16,9 +18,8 @@ public class Kanban {
     private Long id;
     @NotNull
     private String title;
-    @ManyToOne
-    private User user;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "kanban_id")
     private List<Task> tasks;
 
     public String getTitle() {
@@ -27,14 +28,6 @@ public class Kanban {
 
     public void setTitle(String name) {
         this.title = name;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public List<Task> getTasks() {
@@ -52,5 +45,13 @@ public class Kanban {
 
     public Long getId() {
         return id;
+    }
+
+    public void addTask(Task task) {
+
+        if (Objects.isNull(tasks)) {
+            tasks = new ArrayList<>();
+        }
+        tasks.add(task);
     }
 }
