@@ -1,51 +1,56 @@
 package com.groop.server.domain;
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author joandy alejo garcia
  */
 @Entity
-@Table
+@Table(name = "tasks")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String status;
-    private String Title;
-    private String Description;
-    @ManyToOne(optional = false)
-    private Member member;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TaskStatus status;
+    private String title;
+    private String description;
 
-    public String getStatus() {
+    @OneToMany
+    private List<Comment> comments;
+
+
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public void setMember(Member assignedTo) {
-        this.member = assignedTo;
+        this.description = description;
     }
 
     public void setId(Long id) {

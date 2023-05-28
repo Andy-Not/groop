@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@localhost" uuid="78808b40-6ffa-44ea-a5b5-0c69f1ef5c47">
+    <data-source source="LOCAL" name="groopdb@localhost" uuid="3b580a14-dd69-43a6-83b7-de8fc19bd0b0">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
