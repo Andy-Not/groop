@@ -11,12 +11,23 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TaskStatus status;
     private String title;
     private String description;
 
     @OneToMany
     private List<Comment> comments;
+
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
 
     public List<Comment> getComments() {
         return comments;
@@ -24,14 +35,6 @@ public class Task {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getTitle() {

@@ -1,5 +1,7 @@
 package com.groop.server.dto;
 
+import com.groop.server.domain.TaskStatus;
+
 /**
  * @author joandy alejo garcia
  */
@@ -20,8 +22,18 @@ public class TaskDTO {
         this.description = description;
     }
 
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
     private String title;
     private String description;
+
+    private TaskStatus status;
 
 
 }

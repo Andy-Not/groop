@@ -23,6 +23,7 @@ public class TaskServiceImpl implements  TaskService{
         Task task = new Task();
         task.setTitle(taskDTO.getTitle());
         task.setDescription(taskDTO.getDescription());
+        task.setStatus(taskDTO.getStatus());
         return task;
     }
 }
