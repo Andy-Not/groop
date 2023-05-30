@@ -8,6 +8,8 @@ import com.groop.server.repository.KanbanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * @author joandy alejo garcia
  */
@@ -28,6 +30,11 @@ public class KanbanServiceImpl implements KanbanService{
         Kanban kanban = kanbanRepository.findById(kanban_id).get();
         kanban.addTask(convertTaskDTOtoTask(taskDTO));
         return kanbanRepository.save(kanban);
+    }
+
+    @Override
+    public Optional<Kanban> findKanbanById(Long kanban_id) {
+        return kanbanRepository.findById(kanban_id).isEmpty() ? Optional.empty() :  kanbanRepository.findById(kanban_id);
     }
 
 
