@@ -1,6 +1,7 @@
 package com.groop.server.web;
 
 import com.groop.server.domain.Kanban;
+import com.groop.server.domain.Task;
 import com.groop.server.domain.User;
 import com.groop.server.dto.AuthCredentialsRequest;
 import com.groop.server.dto.KanbanDTO;
@@ -88,6 +89,33 @@ public class AuthController {
             return errorMessage();
         }
     }
+    @DeleteMapping("deleteKanban/{kanban_id}")
+    public ResponseEntity<?> deleteKanban(@PathVariable Long kanban_id){
+        try {
+            Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
+            if (optionalKanban.isPresent()){
+                kanbanService.deleteKanban(optionalKanban.get());
+                return new ResponseEntity<String>("Kanban has been deleted", HttpStatus.ACCEPTED);
+            }
+            return new ResponseEntity<String>("Kanban was not found", HttpStatus.BAD_REQUEST);
+        }catch (Exception e) {
+            return errorMessage();
+        }
+    }
+
+@DeleteMapping("deleteTask/{id}")
+public ResponseEntity<?> deleteTask(@PathVariable Long id){
+        Optional<Task> optionalTask = taskService.findTask(id);
+        try {
+            if (optionalTask.isPresent()){
+                taskService.deleteTask(optionalTask.get());
+                return new ResponseEntity<>("Task has been deleted",HttpStatus.ACCEPTED);
+            }
+            return new ResponseEntity<>("Task does not exist",HttpStatus.BAD_REQUEST);
+        }catch (Exception e) {
+            return errorMessage();
+        }
+}
 
 
     ResponseEntity<?> errorMessage(){

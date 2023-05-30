@@ -37,6 +37,11 @@ public class KanbanServiceImpl implements KanbanService{
         return kanbanRepository.findById(kanban_id).isEmpty() ? Optional.empty() :  kanbanRepository.findById(kanban_id);
     }
 
+    @Override
+    public void deleteKanban(Kanban kanban) {
+        kanbanRepository.delete(kanban);
+    }
+
 
     public Kanban convertKanbanDTOToKanban(KanbanDTO kanbanDTO){
         Kanban kanban = new Kanban();

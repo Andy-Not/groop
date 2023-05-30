@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author joandy alejo garcia
  */
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/task")
 public class TasksController {
 @GetMapping("hello")
     public String hello() {

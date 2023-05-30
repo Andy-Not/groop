@@ -15,4 +15,7 @@ public interface KanbanService {
     Kanban addNewTaskToKanban(Long kanban_id, TaskDTO taskDTO);
 
     Optional<Kanban> findKanbanById(Long kanban_id);
+
+    void deleteKanban(Kanban kanban);
+
 }
