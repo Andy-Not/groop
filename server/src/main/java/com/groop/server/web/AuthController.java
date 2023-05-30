@@ -88,6 +88,19 @@ public class AuthController {
             return errorMessage();
         }
     }
+    @DeleteMapping("deleteKanban/{kanban_id}")
+    public ResponseEntity<?> deleteKanban(@PathVariable Long kanban_id){
+        try {
+            Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
+            if (optionalKanban.isPresent()){
+                kanbanService.deleteKanban(optionalKanban.get());
+                return new ResponseEntity<String>("Kanban has been deletes", HttpStatus.ACCEPTED);
+            }
+            return new ResponseEntity<String>("Kanban was not found", HttpStatus.BAD_REQUEST);
+        }catch (Exception e) {
+            return errorMessage();
+        }
+    }
 
 
     ResponseEntity<?> errorMessage(){
