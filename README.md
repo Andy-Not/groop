@@ -10,13 +10,13 @@
 
   
   
-<h2>🧐 Features</h2>
+<h2>Features</h2>
 
 Here're some of the project's best features:
 
 *   Keep track of your projects
 
-<h2>🛠️ Installation Steps:</h2>
+<h2>Installation Steps:</h2>
 
 <p>1. Install React.js</p>
 
@@ -32,7 +32,7 @@ run docker-compose.yml
 
   
   
-<h2>💻 Built with</h2>
+<h2>Built with</h2>
 
 Technologies used in the project:
 
