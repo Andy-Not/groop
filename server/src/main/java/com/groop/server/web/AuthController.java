@@ -1,5 +1,6 @@
 package com.groop.server.web;
 
+import com.groop.server.domain.Kanban;
 import com.groop.server.domain.User;
 import com.groop.server.dto.AuthCredentialsRequest;
 import com.groop.server.dto.KanbanDTO;
@@ -16,6 +17,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -60,7 +63,7 @@ public class AuthController {
         try {
             return new ResponseEntity<>(kanbanService.saveNewKanban(kanbanDTO), HttpStatus.ACCEPTED);
         }catch (Exception e){
-            return new ResponseEntity<>("something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorMessage();
         }
     }
 
@@ -69,16 +72,31 @@ public class AuthController {
         try {
             return new ResponseEntity<>(taskService.saveNewTask(taskDTO), HttpStatus.ACCEPTED);
         }catch (Exception e){
-            return new ResponseEntity<>("something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorMessage();
         }
     }
 
     @PostMapping("addTaskToKanban/{kanban_id}")
     ResponseEntity<?> addNewTaskToKanbanById(@PathVariable Long kanban_id, @RequestBody TaskDTO taskDTO){
+        Optional<Kanban> optKanban = kanbanService.findKanbanById(kanban_id);
         try {
-            return new ResponseEntity<>(kanbanService.addNewTaskToKanban(kanban_id,taskDTO), HttpStatus.ACCEPTED);
+            if (optKanban.isPresent()){
+                return new ResponseEntity<>(kanbanService.addNewTaskToKanban(kanban_id,taskDTO), HttpStatus.ACCEPTED);
+            }
+            return noKanbanFound();
         }catch (Exception e){
-            return new ResponseEntity<>("something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
+            return errorMessage();
         }
     }
+
+
+    ResponseEntity<?> errorMessage(){
+        return new ResponseEntity<>("something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    ResponseEntity<?> noKanbanFound(){
+        return new ResponseEntity<>("no kanban was found", HttpStatus.NOT_FOUND);
+    }
+
+
 }
