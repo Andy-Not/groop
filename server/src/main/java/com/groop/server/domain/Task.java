@@ -17,7 +17,8 @@ public class Task {
     private String title;
     private String description;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "task_id")
     private List<Comment> comments;
 
 
