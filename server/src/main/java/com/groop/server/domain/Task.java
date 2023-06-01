@@ -1,6 +1,8 @@
 package com.groop.server.domain;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author joandy alejo garcia
@@ -18,7 +20,7 @@ public class Task {
     private String description;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "task_id")
+    @JoinColumn(nullable = false, name = "task_id")
     private List<Comment> comments;
 
 
@@ -60,5 +62,13 @@ public class Task {
 
     public Long getId() {
         return id;
+    }
+
+    public void addComment(Comment comment) {
+
+        if (Objects.isNull(comments)) {
+            comments = new ArrayList<>();
+        }
+        comments.add(comment);
     }
 }

@@ -1,5 +1,7 @@
 package com.groop.server.service;
+import com.groop.server.domain.Comment;
 import com.groop.server.domain.Task;
+import com.groop.server.dto.CommentDTO;
 import com.groop.server.dto.TaskDTO;
 import com.groop.server.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,20 @@ public class TaskServiceImpl implements  TaskService{
     @Override
     public Task saveNewTask(TaskDTO taskDTO) {
         return taskRepository.save(convertTaskDTOtoTask(taskDTO));
+    }
+
+    @Override
+    public Task addCommentToTask(Long task_id, CommentDTO commentDTO) {
+        Task task = taskRepository.findById(task_id).get();
+        task.addComment(convertCommentDtoToComment(commentDTO));
+        return taskRepository.save(task);
+    }
+
+    @Override
+    public Comment convertCommentDtoToComment(CommentDTO commentDTO) {
+        Comment comment = new Comment();
+        comment.setMessage(commentDTO.getMessage());
+        return comment;
     }
 
     @Override
