@@ -19,12 +19,6 @@ import java.util.Optional;
 public class TasksController {
     @Autowired
     private TaskService taskService;
-    @GetMapping("hello")
-        public String hello() {
-        return "h3ll0 wrld";
-    }
-
-
     @PostMapping("addNewTask")
     ResponseEntity<?> createNewTask(@RequestBody TaskDTO taskDTO){
         try {
@@ -49,7 +43,7 @@ public class TasksController {
     }
 
 
-    @DeleteMapping("deleteTask/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable Long id){
         Optional<Task> optionalTask = taskService.findTask(id);
         try {

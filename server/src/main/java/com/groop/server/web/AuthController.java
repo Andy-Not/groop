@@ -22,10 +22,6 @@ import java.util.Optional;
 public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private CommentService commentService;
-
     @Autowired
     JwtUtil jwtUtil;
 
@@ -50,21 +46,5 @@ public class AuthController {
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-    }
-    @DeleteMapping("deleteComment/{id}")
-    public ResponseEntity<?> deleteComment(@PathVariable Long id){
-            Optional<Comment> optionalComment = commentService.findCommentById(id);
-            try {
-                if (optionalComment.isPresent()){
-                    commentService.deleteComment(optionalComment.get());
-                    return new ResponseEntity<>("the comment has been deleted", HttpStatus.ACCEPTED);
-                }
-                return new ResponseEntity<>("comment does not exist", HttpStatus.BAD_GATEWAY);
-            }catch (Exception e){
-                return errorMessage();
-            }
-    }
-    ResponseEntity<?> errorMessage(){
-        return new ResponseEntity<>("something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
