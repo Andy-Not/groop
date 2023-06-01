@@ -1,6 +1,8 @@
 package com.groop.server.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author joandy alejo garcia
@@ -30,4 +32,5 @@ public class Comment {
     public Long getId() {
         return id;
     }
+
 }
