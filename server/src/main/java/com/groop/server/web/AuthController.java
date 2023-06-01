@@ -1,16 +1,9 @@
 package com.groop.server.web;
 
 import com.groop.server.domain.Comment;
-import com.groop.server.domain.Kanban;
-import com.groop.server.domain.Task;
 import com.groop.server.domain.User;
 import com.groop.server.dto.AuthCredentialsRequest;
-import com.groop.server.dto.CommentDTO;
-import com.groop.server.dto.KanbanDTO;
-import com.groop.server.dto.TaskDTO;
 import com.groop.server.service.CommentService;
-import com.groop.server.service.KanbanService;
-import com.groop.server.service.TaskService;
 import com.groop.server.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,19 +20,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private KanbanService kanbanService;
-
-    @Autowired
-    private TaskService taskService;
-
-    @Autowired
-    private CommentService commentService;
-
     @Autowired
     JwtUtil jwtUtil;
 
@@ -65,100 +47,4 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-    @PostMapping("addKanban")
-    ResponseEntity<?> createKanban(@RequestBody KanbanDTO kanbanDTO){
-        try {
-            return new ResponseEntity<>(kanbanService.saveNewKanban(kanbanDTO), HttpStatus.ACCEPTED);
-        }catch (Exception e){
-            return errorMessage();
-        }
-    }
-
-    @PostMapping("addNewTask")
-    ResponseEntity<?> createNewTask(@RequestBody TaskDTO taskDTO){
-        try {
-            return new ResponseEntity<>(taskService.saveNewTask(taskDTO), HttpStatus.ACCEPTED);
-        }catch (Exception e){
-            return errorMessage();
-        }
-    }
-
-    @PostMapping("addTaskToKanban/{kanban_id}")
-    ResponseEntity<?> addNewTaskToKanbanById(@PathVariable Long kanban_id, @RequestBody TaskDTO taskDTO){
-        Optional<Kanban> optKanban = kanbanService.findKanbanById(kanban_id);
-        try {
-            if (optKanban.isPresent()){
-                return new ResponseEntity<>(kanbanService.addNewTaskToKanban(kanban_id,taskDTO), HttpStatus.ACCEPTED);
-            }
-            return noKanbanFound();
-        }catch (Exception e){
-            return errorMessage();
-        }
-    }
-
-    @PostMapping("addCommentToTask/{task_id}")
-    public ResponseEntity<?> addCommentToTaskById(@PathVariable Long task_id, @RequestBody CommentDTO commentDTO){
-        Optional<Task> task = taskService.findTask(task_id);
-        try {
-            if (task.isPresent()){
-                taskService.addCommentToTask(task_id, commentDTO);
-                return new ResponseEntity<>("Comment was posted", HttpStatus.ACCEPTED);
-            }
-            return new ResponseEntity<>("task does not exist", HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
-            return errorMessage();
-        }
-    }
-    @DeleteMapping("deleteKanban/{kanban_id}")
-    public ResponseEntity<?> deleteKanban(@PathVariable Long kanban_id){
-        try {
-            Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
-            if (optionalKanban.isPresent()){
-                kanbanService.deleteKanban(optionalKanban.get());
-                return new ResponseEntity<String>("Kanban has been deleted", HttpStatus.ACCEPTED);
-            }
-            return new ResponseEntity<String>("Kanban was not found", HttpStatus.BAD_REQUEST);
-        }catch (Exception e) {
-            return errorMessage();
-        }
-    }
-
-@DeleteMapping("deleteTask/{id}")
-public ResponseEntity<?> deleteTask(@PathVariable Long id){
-        Optional<Task> optionalTask = taskService.findTask(id);
-        try {
-            if (optionalTask.isPresent()){
-                taskService.deleteTask(optionalTask.get());
-                return new ResponseEntity<>("Task has been deleted",HttpStatus.ACCEPTED);
-            }
-            return new ResponseEntity<>("Task does not exist",HttpStatus.BAD_REQUEST);
-        }catch (Exception e) {
-            return errorMessage();
-        }
-}
-
-@DeleteMapping("deleteComment/{id}")
-public ResponseEntity<?> deleteComment(@PathVariable Long id){
-        Optional<Comment> optionalComment = commentService.findCommentById(id);
-        try {
-            if (optionalComment.isPresent()){
-                commentService.deleteComment(optionalComment.get());
-                return new ResponseEntity<>("the comment has been deleted", HttpStatus.ACCEPTED);
-            }
-            return new ResponseEntity<>("comment does not exist", HttpStatus.BAD_GATEWAY);
-        }catch (Exception e){
-            return errorMessage();
-        }
-}
-
-
-    ResponseEntity<?> errorMessage(){
-        return new ResponseEntity<>("something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    ResponseEntity<?> noKanbanFound(){
-        return new ResponseEntity<>("no kanban was found", HttpStatus.NOT_FOUND);
-    }
-
-
 }
