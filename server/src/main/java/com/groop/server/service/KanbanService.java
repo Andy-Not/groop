@@ -4,6 +4,7 @@ import com.groop.server.domain.Kanban;
 import com.groop.server.dto.KanbanDTO;
 import com.groop.server.dto.TaskDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,6 +16,8 @@ public interface KanbanService {
     Kanban addNewTaskToKanban(Long kanban_id, TaskDTO taskDTO);
 
     Optional<Kanban> findKanbanById(Long kanban_id);
+
+    List<Kanban> findAllKanban();
 
     void deleteKanban(Kanban kanban);
 

@@ -29,6 +29,15 @@ public class KanbanController {
         }
     }
 
+    @GetMapping("getAllKanban")
+    ResponseEntity<?> getAllKanban(){
+        try {
+            return new ResponseEntity<>(kanbanService.findAllKanban(),HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return errorMessage();
+        }
+    };
+
     @PostMapping("addTaskToKanban/{kanban_id}")
     ResponseEntity<?> addNewTaskToKanbanById(@PathVariable Long kanban_id, @RequestBody TaskDTO taskDTO){
         Optional<Kanban> optKanban = kanbanService.findKanbanById(kanban_id);

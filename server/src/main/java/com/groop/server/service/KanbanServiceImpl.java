@@ -8,6 +8,8 @@ import com.groop.server.repository.KanbanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -35,6 +37,13 @@ public class KanbanServiceImpl implements KanbanService{
     @Override
     public Optional<Kanban> findKanbanById(Long kanban_id) {
         return kanbanRepository.findById(kanban_id).isEmpty() ? Optional.empty() :  kanbanRepository.findById(kanban_id);
+    }
+
+    @Override
+    public List<Kanban> findAllKanban() {
+        List<Kanban> kanbans = new ArrayList<>();
+        kanbanRepository.findAll().forEach(kanbans::add);
+        return kanbans;
     }
 
     @Override
