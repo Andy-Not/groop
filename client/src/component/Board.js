@@ -7,6 +7,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
+import Task from "./Task";
 
 const Board = (props) => {
   return (
@@ -26,7 +27,7 @@ const Board = (props) => {
       </HStack>
       <VStack>
         {props.tasks.map((e) => {
-          return <div>{e.title}</div>;
+          return <Task title={e.title}></Task>;
         })}
       </VStack>
     </Box>
