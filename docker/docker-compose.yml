@@ -1,0 +1,19 @@
+version: '0.1'
+services:
+  groopdb:
+    image: mysql:latest
+    restart: "always"
+    container_name: "groop_app_MYSQL_DB"
+    ports:
+      - 3306:3306
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: groopdb
+    volumes:
+      - ../database/init/ddl:/docker-entrypoint-initdb.d
