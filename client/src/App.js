@@ -1,11 +1,10 @@
-import {Container} from "@chakra-ui/react";
-import SignIn from "./pages/SignIn";
+import { Container } from "@chakra-ui/react";
+
+import Boards from "./pages/Boards";
 function App() {
   return (
     <>
-      <Container>
-        <SignIn />
-      </Container>
+      <Boards />
     </>
   );
 }
