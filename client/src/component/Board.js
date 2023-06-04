@@ -27,7 +27,7 @@ const Board = (props) => {
       </HStack>
       <VStack>
         {props.tasks.map((e) => {
-          return <Task title={e.title}></Task>;
+          return <Task id={e.id} title={e.title}></Task>;
         })}
       </VStack>
     </Box>

@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   CardBody,
+  Hide,
   HStack,
   Menu,
   MenuButton,
@@ -12,11 +13,17 @@ import {
   StackDivider,
   Text,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import axios from "axios";
+import { useState } from "react";
 
 const Task = (props) => {
+  const [isHidden, setIsHidden] = useState(false);
+  const element = document.getElementById(props.id);
+  if (isHidden) {
+    element.remove();
+  }
   return (
-    <Card minWidth={"100%"}>
+    <Card id={props.id} minWidth={"100%"}>
       <CardBody p={3}>
         <Stack divider={<StackDivider />}>
           <Box>
@@ -36,7 +43,15 @@ const Task = (props) => {
                   </MenuButton>
                   <MenuList>
                     <MenuItem>Edit</MenuItem>
-                    <MenuItem>Delete</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        axios.delete(`api/task/${props.id}`).then(() => {
+                          setIsHidden(true);
+                        });
+                      }}
+                    >
+                      Delete
+                    </MenuItem>
                   </MenuList>
                 </>
               )}
