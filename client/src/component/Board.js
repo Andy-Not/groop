@@ -11,10 +11,10 @@ import {
 import { DeleteIcon } from "@chakra-ui/icons";
 import Task from "./Task";
 import TaskModal from "./TaskModal";
+import axios from "axios";
 
 const Board = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const addNewTask = () => {};
   return (
     <>
       <Box
@@ -45,7 +45,7 @@ const Board = (props) => {
           </Button>
         </VStack>
       </Box>
-      <TaskModal isOpen={isOpen} onClose={onClose} />
+      <TaskModal kanbanId={props.id} isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

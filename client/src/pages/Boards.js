@@ -21,7 +21,7 @@ const Boards = () => {
   return (
     <HStack>
       {kanbans.map((e) => {
-        return <Board key={e.id} title={e.title} tasks={e.tasks} />;
+        return <Board key={e.id} id={e.id} title={e.title} tasks={e.tasks} />;
       })}
     </HStack>
   );
