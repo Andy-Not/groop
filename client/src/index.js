@@ -5,16 +5,13 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
 import { GlobalBoardProvider } from "./stores/BoardStore";
-import { GlobalTaskProvider } from "./stores/TaskStore";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <GlobalBoardProvider>
-    <GlobalTaskProvider>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
-    </GlobalTaskProvider>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
   </GlobalBoardProvider>
 );
 
