@@ -11,9 +11,11 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { GlobalBoardContext } from "../stores/BoardStore";
 
 const TaskModal = (props) => {
+  const [globalBoardList, setGlobalBoardList] = useContext(GlobalBoardContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -24,25 +26,35 @@ const TaskModal = (props) => {
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
+
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+    const indexOfKanban = globalBoardList.findIndex(
+      (item) => item.id === props.kanbanId
+    );
+    const localBoardArr = globalBoardList;
+
+    axios
+      .post(`api/kanban/addTaskToKanban/${props.kanbanId}`, {
+        title: title,
+        description: description,
+        status: "TODO",
+      })
+      .then((res) => {
+        localBoardArr[indexOfKanban].tasks.push(res.data.tasks.slice(-1)[0]);
+        setGlobalBoardList(localBoardArr);
+        props.toggleModal();
+      });
+  };
+
   return (
-    <Modal isOpen={props.isOpen} onClose={props.onClose}>
+    <Modal isOpen={props.isOpen}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Create a new task</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              axios
-                .post(`api/kanban/addTaskToKanban/${props.kanbanId}`, {
-                  title: title,
-                  description: description,
-                  status: "TODO",
-                })
-                .then(() => props.onClose);
-            }}
-          >
+          <form onSubmit={handleOnSubmit}>
             <FormControl>
               <FormLabel>Title</FormLabel>
               <Input
@@ -61,8 +73,11 @@ const TaskModal = (props) => {
                 type={"text"}
               />
             </FormControl>
+            <Button onClick={props.toggleModal} mt={2}>
+              close
+            </Button>
             <Button type={"submit"} mt={2} variant="ghost">
-              CREATE
+              create
             </Button>
           </form>
         </ModalBody>

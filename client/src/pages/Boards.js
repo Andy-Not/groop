@@ -1,27 +1,34 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import axios from "axios";
 import Board from "../component/Board";
 import { HStack } from "@chakra-ui/react";
+import { GlobalBoardContext } from "../stores/BoardStore";
 
 const Boards = () => {
-  const [kanbans, setKanbans] = useState([]);
-
+  const [globalBoardList, setGlobalBoardList] = useContext(GlobalBoardContext);
   useEffect(() => {
     console.log("use effect ran call was made");
     const boards = [];
+
     axios.get("api/kanban/getAllKanban").then((e) => {
-      console.log(e.data[0]);
       e.data.forEach((e) => {
         boards.push(e);
       });
-      setKanbans(boards);
+      setGlobalBoardList(boards);
     });
-  }, []);
-
+  }, [setGlobalBoardList]);
   return (
     <HStack>
-      {kanbans.map((e) => {
-        return <Board key={e.id} id={e.id} title={e.title} tasks={e.tasks} />;
+      {globalBoardList.map((e) => {
+        return (
+          <Board
+            index={e.index}
+            key={e.id}
+            id={e.id}
+            title={e.title}
+            tasks={e.tasks}
+          />
+        );
       })}
     </HStack>
   );
