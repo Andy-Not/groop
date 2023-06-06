@@ -19,7 +19,9 @@ const Task = (props) => {
   const [isHidden, setIsHidden] = useState(false);
   const element = document.getElementById(props.id);
   if (isHidden) {
-    element.remove();
+    if (element) {
+      element.remove();
+    }
   }
   return (
     <Card id={props.id} minWidth={"100%"}>

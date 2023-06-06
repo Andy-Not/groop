@@ -5,16 +5,19 @@ import {
   IconButton,
   Spacer,
   Text,
-  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import Task from "./Task";
 import TaskModal from "./TaskModal";
+import { useState } from "react";
 
 const Board = (props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const addNewTask = () => {};
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
       <Box
@@ -38,14 +41,18 @@ const Board = (props) => {
         </HStack>
         <VStack>
           {props.tasks.map((e) => {
-            return <Task id={e.id} title={e.title}></Task>;
+            return <Task key={e.id} id={e.id} title={e.title}></Task>;
           })}
-          <Button onClick={onOpen} mt={2} size={"xs"}>
+          <Button onClick={toggleModal} mt={2} size={"xs"}>
             new task
           </Button>
         </VStack>
       </Box>
-      <TaskModal isOpen={isOpen} onClose={onClose} />
+      <TaskModal
+        toggleModal={toggleModal}
+        kanbanId={props.id}
+        isOpen={isOpen}
+      />
     </>
   );
 };
