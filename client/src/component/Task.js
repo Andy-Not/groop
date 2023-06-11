@@ -15,18 +15,27 @@ import {
 import axios from "axios";
 import { useState } from "react";
 
-const Task = (props) => {
+const Task = ({ id, index, provided, title }) => {
   const [isHidden, setIsHidden] = useState(false);
-  const element = document.getElementById(props.id);
+  const element = document.getElementById(id);
   if (isHidden) {
     element.remove();
   }
   return (
-    <Card id={props.id} minWidth={"100%"}>
+    <Card
+      key={id}
+      {...provided.dragHandleProps}
+      {...provided.draggableProps}
+      ref={provided.innerRef}
+      _hover={{ cursor: "grab" }}
+      id={id}
+      index={index}
+      minWidth={"100%"}
+    >
       <CardBody p={3}>
         <Stack divider={<StackDivider />}>
           <Box>
-            <Text fontSize="sm">{props.title}</Text>
+            <Text fontSize="sm">{title}</Text>
           </Box>
           <HStack>
             <Menu>
@@ -44,7 +53,7 @@ const Task = (props) => {
                     <MenuItem>Edit</MenuItem>
                     <MenuItem
                       onClick={() => {
-                        axios.delete(`api/task/${props.id}`).then(() => {
+                        axios.delete(`api/task/${id}`).then(() => {
                           setIsHidden(true);
                         });
                       }}
