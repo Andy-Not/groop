@@ -40,7 +40,7 @@ const Board = ({ kanbanId, kanban }) => {
           </HStack>
         </HStack>
 
-        <Droppable droppableId={kanbanId}>
+        <Droppable droppableId={kanbanId} key={kanbanId}>
           {(provided) => {
             return (
               <VStack {...provided.droppableProps} ref={provided.innerRef}>

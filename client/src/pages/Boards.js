@@ -4,18 +4,18 @@ import Board from "../component/Board";
 import { HStack } from "@chakra-ui/react";
 import { DragDropContext } from "react-beautiful-dnd";
 
-const onDragEnd = (result, kanbans, setKanbans) => {
+const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
   const { source, destination } = result;
   if (source.droppableId !== destination.droppableId) {
-    const sourceColumn = kanbans[source.droppableId];
-    const destColumn = kanbans[destination.droppableId];
+    const sourceColumn = columns[source.droppableId];
+    const destColumn = columns[destination.droppableId];
     const sourceItems = [...sourceColumn.tasks];
     const destItems = [...destColumn.tasks];
     const [removed] = sourceItems.splice(source.index, 1);
     destItems.splice(destination.index, 0, removed);
-    setKanbans({
-      ...kanbans,
+    setColumns({
+      ...columns,
       [source.droppableId]: {
         ...sourceColumn,
         tasks: sourceItems,
@@ -26,12 +26,12 @@ const onDragEnd = (result, kanbans, setKanbans) => {
       },
     });
   } else {
-    const kanban = kanbans[source.droppableId];
+    const kanban = columns[source.droppableId];
     const copiedItems = [...kanban.tasks];
     const [removed] = copiedItems.splice(source.index, 1);
     copiedItems.splice(destination.index, 0, removed);
-    setKanbans({
-      ...kanbans,
+    setColumns({
+      ...columns,
       [source.droppableId]: {
         ...kanban,
         tasks: copiedItems,
@@ -41,7 +41,7 @@ const onDragEnd = (result, kanbans, setKanbans) => {
 };
 
 const Boards = () => {
-  const [kanbans, setKanbans] = useState({});
+  const [columns, setColumns] = useState({});
 
   useEffect(() => {
     console.log("use effect ran call was made");
@@ -54,13 +54,15 @@ const Boards = () => {
         group[obj.id] = obj;
         return group;
       }, {});
-      setKanbans(groupedObjects);
+      setColumns(groupedObjects);
     });
   }, []);
   return (
     <HStack>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {Object.entries(kanbans).map(([kanbanId, kanban], index) => {
+      <DragDropContext
+        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+      >
+        {Object.entries(columns).map(([kanbanId, kanban], index) => {
           return <Board key={kanbanId} kanbanId={kanbanId} kanban={kanban} />;
         })}
       </DragDropContext>
