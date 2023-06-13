@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import axios from "axios";
 import Board from "../component/Board";
 import { HStack } from "@chakra-ui/react";
@@ -43,10 +43,10 @@ const onDragEnd = (result, columns, setColumns) => {
 
 const Boards = () => {
   const [columns, setColumns] = useState({});
-
   useEffect(() => {
     console.log("use effect ran call was made");
     const boards = [];
+
     axios.get("api/kanban/getAllKanban").then((e) => {
       e.data.forEach((e) => {
         boards.push(e);
@@ -67,6 +67,7 @@ const Boards = () => {
           return <Board key={kanbanId} kanbanId={kanbanId} kanban={kanban} />;
         })}
       </DragDropContext>
+
     </HStack>
   );
 };

@@ -19,7 +19,9 @@ const Task = ({ id, index, provided, title }) => {
   const [isHidden, setIsHidden] = useState(false);
   const element = document.getElementById(id);
   if (isHidden) {
-    element.remove();
+    if (element) {
+      element.remove();
+    }
   }
   return (
     <Card

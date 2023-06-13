@@ -4,7 +4,6 @@ import {
   IconButton,
   Spacer,
   Text,
-  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
@@ -13,7 +12,9 @@ import TaskModal from "./TaskModal";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
 const Board = ({ kanbanId, kanban }) => {
+  
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
       <Box
@@ -39,7 +40,6 @@ const Board = ({ kanbanId, kanban }) => {
             />
           </HStack>
         </HStack>
-
         <Droppable droppableId={kanbanId} key={kanbanId}>
           {(provided) => {
             return (
@@ -75,6 +75,7 @@ const Board = ({ kanbanId, kanban }) => {
       </Box>
 
       <TaskModal isOpen={isOpen} onClose={onClose} />
+
     </>
   );
 };
