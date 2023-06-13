@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Board from "../component/Board";
 import { HStack } from "@chakra-ui/react";
@@ -67,7 +67,6 @@ const Boards = () => {
           return <Board key={kanbanId} kanbanId={kanbanId} kanban={kanban} />;
         })}
       </DragDropContext>
-
     </HStack>
   );
 };
