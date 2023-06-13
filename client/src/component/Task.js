@@ -30,7 +30,8 @@ const Task = ({ id, index, provided, title }) => {
       _hover={{ cursor: "grab" }}
       id={id}
       index={index}
-      minWidth={"100%"}
+      w={"100%"}
+      maxW={"15em"}
     >
       <CardBody p={3}>
         <Stack divider={<StackDivider />}>
