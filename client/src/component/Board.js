@@ -43,7 +43,12 @@ const Board = ({ kanbanId, kanban }) => {
         <Droppable droppableId={kanbanId} key={kanbanId}>
           {(provided) => {
             return (
-              <VStack {...provided.droppableProps} ref={provided.innerRef}>
+              <VStack
+                width={"100%"}
+                minHeight={"100%"}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
                 {kanban.tasks.map((task, index) => {
                   return (
                     <Draggable
@@ -71,7 +76,9 @@ const Board = ({ kanbanId, kanban }) => {
             );
           }}
         </Droppable>
-        <IconButton icon={<AddIcon />} onClick={onOpen} mt={2} size={"sm"} />
+        <Box display={"flex"} justifyContent={"center"}>
+          <IconButton icon={<AddIcon />} onClick={onOpen} mt={2} size={"sm"} />
+        </Box>
       </Box>
 
       <TaskModal isOpen={isOpen} onClose={onClose} />
