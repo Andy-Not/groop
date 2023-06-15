@@ -30,7 +30,7 @@ public class KanbanServiceImpl implements KanbanService{
     @Override
     public Kanban addNewTaskToKanban(Long kanban_id, TaskDTO taskDTO) {
         Kanban kanban = kanbanRepository.findById(kanban_id).get();
-        kanban.addTask(convertTaskDTOtoTask(taskDTO));
+//        kanban.addTask(convertTaskDTOtoTask(taskDTO));
         return kanbanRepository.save(kanban);
     }
 
