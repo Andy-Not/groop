@@ -1,11 +1,9 @@
 package com.groop.server.service;
 
 import com.groop.server.domain.Comment;
-import com.groop.server.domain.Kanban;
 import com.groop.server.domain.Task;
 import com.groop.server.dto.CommentDTO;
 import com.groop.server.dto.TaskDTO;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
@@ -22,5 +20,7 @@ public interface TaskService {
     void  deleteTask(Task task);
 
     Optional<Task> findTask(Long id);
+
+    Optional<Task> updateTaskKanbanColumn(long task_id, long kanban);
 
 }
