@@ -1,6 +1,6 @@
 package com.groop.server.dto;
 
-import com.groop.server.domain.TaskStatus;
+import com.groop.server.model.TaskStatus;
 
 /**
  * @author joandy alejo garcia

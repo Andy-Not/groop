@@ -1,6 +1,6 @@
 package com.groop.server.repository;
 
-import com.groop.server.domain.User;
+import com.groop.server.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

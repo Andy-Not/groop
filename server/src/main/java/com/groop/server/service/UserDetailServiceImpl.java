@@ -1,6 +1,6 @@
 package com.groop.server.service;
 
-import com.groop.server.domain.User;
+import com.groop.server.model.User;
 import com.groop.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

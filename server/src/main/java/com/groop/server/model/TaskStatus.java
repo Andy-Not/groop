@@ -1,4 +1,4 @@
-package com.groop.server.domain;
+package com.groop.server.model;
 
 /**
  * @author joandy alejo garcia
