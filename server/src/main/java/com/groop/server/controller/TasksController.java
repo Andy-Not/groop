@@ -1,6 +1,6 @@
-package com.groop.server.web;
+package com.groop.server.controller;
 
-import com.groop.server.domain.Task;
+import com.groop.server.model.Task;
 import com.groop.server.dto.CommentDTO;
 import com.groop.server.dto.TaskDTO;
 import com.groop.server.service.TaskService;

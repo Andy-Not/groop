@@ -1,6 +1,6 @@
 package com.groop.server.repository;
 
-import com.groop.server.domain.Comment;
+import com.groop.server.model.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

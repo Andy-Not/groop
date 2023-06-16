@@ -1,7 +1,6 @@
-package com.groop.server.domain;
+package com.groop.server.model;
 
 import com.sun.istack.NotNull;
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
 import javax.persistence.*;
 import java.util.ArrayList;

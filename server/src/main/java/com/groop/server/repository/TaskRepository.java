@@ -1,6 +1,6 @@
 package com.groop.server.repository;
 
-import com.groop.server.domain.Task;
+import com.groop.server.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

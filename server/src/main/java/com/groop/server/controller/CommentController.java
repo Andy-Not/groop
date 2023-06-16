@@ -1,6 +1,5 @@
-package com.groop.server.web;
+package com.groop.server.controller;
 
-import com.groop.server.domain.Comment;
 import com.groop.server.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,7 @@ public class CommentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable Long id){
-        Optional<Comment> optionalComment = commentService.findCommentById(id);
+        Optional<com.groop.server.model.Comment> optionalComment = commentService.findCommentById(id);
         try {
             if (optionalComment.isPresent()){
                 commentService.deleteComment(optionalComment.get());
