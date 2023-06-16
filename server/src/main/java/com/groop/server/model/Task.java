@@ -16,7 +16,7 @@ public class Task {
     private String title;
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(nullable = false, name = "task_id")
     public Kanban kanban;
 //    private List<Comment> comments;
