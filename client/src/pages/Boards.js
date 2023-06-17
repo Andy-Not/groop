@@ -3,6 +3,7 @@ import axios from "axios";
 import Board from "../component/Board";
 import { HStack } from "@chakra-ui/react";
 import { DragDropContext } from "react-beautiful-dnd";
+import BoardSkeleton from "../component/skeletons/BoardSkeleton";
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -60,13 +61,21 @@ const Boards = () => {
   }, []);
   return (
     <HStack>
-      <DragDropContext
-        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
-      >
-        {Object.entries(columns).map(([kanbanId, kanban], index) => {
-          return <Board key={kanbanId} kanbanId={kanbanId} kanban={kanban} />;
-        })}
-      </DragDropContext>
+      {Object.keys(columns).length === 0 ? (
+        <HStack>
+          <BoardSkeleton />
+          <BoardSkeleton />
+          <BoardSkeleton />
+        </HStack>
+      ) : (
+        <DragDropContext
+          onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+        >
+          {Object.entries(columns).map(([kanbanId, kanban], index) => {
+            return <Board key={kanbanId} kanbanId={kanbanId} kanban={kanban} />;
+          })}
+        </DragDropContext>
+      )}
     </HStack>
   );
 };
