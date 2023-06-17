@@ -8,9 +8,11 @@ import { GlobalBoardProvider } from "./stores/BoardStore";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ChakraProvider>
-    <App />
-  </ChakraProvider>
+  <GlobalBoardProvider>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
+  </GlobalBoardProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
