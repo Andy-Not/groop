@@ -1,6 +1,6 @@
 package com.groop.server.controller;
 
-import com.groop.server.model.Kanban;
+import com.groop.server.model.KanbanSwimLane;
 import com.groop.server.dto.KanbanDTO;
 import com.groop.server.dto.TaskDTO;
 import com.groop.server.service.KanbanService;
@@ -40,7 +40,7 @@ public class KanbanController {
 
     @PostMapping("addTaskToKanban/{kanban_id}")
     ResponseEntity<?> addNewTaskToKanbanById(@PathVariable Long kanban_id, @RequestBody TaskDTO taskDTO){
-        Optional<Kanban> optKanban = kanbanService.findKanbanById(kanban_id);
+        Optional<KanbanSwimLane> optKanban = kanbanService.findKanbanById(kanban_id);
         try {
             if (optKanban.isPresent()){
                 return new ResponseEntity<>(kanbanService.addNewTaskToKanban(kanban_id,taskDTO), HttpStatus.ACCEPTED);
@@ -54,7 +54,7 @@ public class KanbanController {
     @DeleteMapping("/{kanban_id}")
     public ResponseEntity<?> deleteKanban(@PathVariable Long kanban_id){
         try {
-            Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
+            Optional<KanbanSwimLane> optionalKanban = kanbanService.findKanbanById(kanban_id);
             if (optionalKanban.isPresent()){
                 kanbanService.deleteKanban(optionalKanban.get());
                 return new ResponseEntity<String>("Kanban has been deleted", HttpStatus.ACCEPTED);

@@ -1,10 +1,10 @@
 package com.groop.server.service;
 import com.groop.server.model.Comment;
-import com.groop.server.model.Kanban;
+import com.groop.server.model.KanbanSwimLane;
 import com.groop.server.model.Task;
 import com.groop.server.dto.CommentDTO;
 import com.groop.server.dto.TaskDTO;
-import com.groop.server.repository.KanbanRepository;
+import com.groop.server.repository.KanbanSwimLaneRepository;
 import com.groop.server.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class TaskService {
     TaskRepository taskRepository;
 
     @Autowired
-    KanbanRepository kanbanRepository;
+    KanbanSwimLaneRepository kanbanSwimLaneRepository;
 
 
     public Task saveNewTask(TaskDTO taskDTO) {
@@ -48,9 +48,9 @@ public class TaskService {
 
     public Task convertTaskDTOtoTask(TaskDTO taskDTO){
         Task task = new Task();
-        task.setTitle(taskDTO.getTitle());
-        task.setDescription(taskDTO.getDescription());
-        task.setStatus(taskDTO.getStatus());
+//        task.setTitle(taskDTO.getTitle());
+//        task.setDescription(taskDTO.getDescription());
+//        task.setStatus(taskDTO.getStatus());
         return task;
     }
 
@@ -60,9 +60,9 @@ public class TaskService {
 
     public Optional<Task> updateTaskKanbanColumn(long taskId, long kanbanId) {
         Optional<Task> task = taskRepository.findById(taskId);
-        Optional<Kanban> kanban = kanbanRepository.findById(kanbanId);
+        Optional<KanbanSwimLane> kanban = kanbanSwimLaneRepository.findById(kanbanId);
         if (task.isPresent() && kanban.isPresent()) {
-            task.get().setKanban(kanban.get());
+//            task.get().setKanban(kanban.get());
             taskRepository.save(task.get());
         }
         return task;
