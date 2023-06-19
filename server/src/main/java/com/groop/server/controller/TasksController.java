@@ -42,7 +42,6 @@ public class TasksController {
         }
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable Long id){
         Optional<Task> optionalTask = taskService.findTask(id);

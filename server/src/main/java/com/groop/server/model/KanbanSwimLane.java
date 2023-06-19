@@ -1,5 +1,6 @@
 package com.groop.server.model;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,15 +10,17 @@ import javax.persistence.*;
  */
 @Entity
 @Data
-@Table(name = "comments")
-public class Comment {
+public class KanbanSwimLane {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String message;
+    @NotNull
+    private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_id", nullable = false)
-    private Task task;
+    @ManyToOne
+    private Kanban kanban;
+
+    public KanbanSwimLane() {
+    }
 }
