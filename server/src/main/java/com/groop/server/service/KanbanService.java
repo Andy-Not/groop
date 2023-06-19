@@ -35,10 +35,9 @@ public class KanbanService {
         return kanbanSwimLaneRepository.save(kanbanSwimLane);
     }
 
-    public void addUserToKanbanById(User user, Long kanban_id){
-        Optional<Kanban> kanban = findKanbanById(kanban_id);
-        kanban.ifPresent(value -> value.addUser(user));
-        kanbanRepository.save(kanban.get());
+    public void addUserToKanbanById(User user, Kanban kanban){
+        kanban.addUser(user);
+        kanbanRepository.save(kanban);
     }
     public Optional<Kanban> findKanbanById(Long kanban_id) {
         return kanbanRepository.findById(kanban_id).isEmpty() ? Optional.empty() :  kanbanRepository.findById(kanban_id);

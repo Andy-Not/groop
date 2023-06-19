@@ -45,8 +45,11 @@ public class KanbanController {
         Optional<Kanban> optionalKanban = kanbanRepository.findById(kanban_id);
         try {
             if (optionalUser.isPresent() && optionalKanban.isPresent()){
-                kanbanService.addUserToKanbanById(optionalUser.get(), kanban_id);
-                return new ResponseEntity<>("user has been added", HttpStatus.ACCEPTED);
+                if (optionalKanban.get().getUsers().contains(optionalUser.get())){
+                    return new ResponseEntity<>("user already exist", HttpStatus.BAD_REQUEST);
+                }
+                kanbanService.addUserToKanbanById(optionalUser.get(), optionalKanban.get());
+                return new ResponseEntity<>(optionalKanban.get().getUsers(), HttpStatus.ACCEPTED);
             }
             return new ResponseEntity<>("This user or kanban does not exist", HttpStatus.BAD_REQUEST);
         }catch (Exception e){
