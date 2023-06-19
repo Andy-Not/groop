@@ -23,6 +23,10 @@ public class Task {
     @Column(length = 500)
     private String description;
 
+    @OneToOne
+    private KanbanSwimLane kanbanSwimLane;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
     private List<Comment> comments;
+
 }
