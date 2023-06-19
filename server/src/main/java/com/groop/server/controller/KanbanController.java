@@ -49,7 +49,8 @@ public class KanbanController {
                     return new ResponseEntity<>("user already exist", HttpStatus.BAD_REQUEST);
                 }
                 kanbanService.addUserToKanbanById(optionalUser.get(), optionalKanban.get());
-                return new ResponseEntity<>(optionalKanban.get().getUsers(), HttpStatus.ACCEPTED);
+                return new ResponseEntity<>("user " + optionalUser.get().getUsername() + " has been added",
+                        HttpStatus.ACCEPTED);
             }
             return new ResponseEntity<>("This user or kanban does not exist", HttpStatus.BAD_REQUEST);
         }catch (Exception e){
