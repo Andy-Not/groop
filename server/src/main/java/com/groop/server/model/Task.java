@@ -1,8 +1,5 @@
-package com.groop.server.domain;
+package com.groop.server.model;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * @author joandy alejo garcia
@@ -19,9 +16,10 @@ public class Task {
     private String title;
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(nullable = false, name = "task_id")
-    private List<Comment> comments;
+    public Kanban kanban;
+//    private List<Comment> comments;
 
 
     public TaskStatus getStatus() {
@@ -32,13 +30,13 @@ public class Task {
         this.status = status;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
+//    public List<Comment> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(List<Comment> comments) {
+//        this.comments = comments;
+//    }
 
     public String getTitle() {
         return title;
@@ -64,11 +62,19 @@ public class Task {
         return id;
     }
 
-    public void addComment(Comment comment) {
+//    public void addComment(Comment comment) {
+//
+//        if (Objects.isNull(comments)) {
+//            comments = new ArrayList<>();
+//        }
+//        comments.add(comment);
+//    }
 
-        if (Objects.isNull(comments)) {
-            comments = new ArrayList<>();
-        }
-        comments.add(comment);
+    public Kanban getKanban() {
+        return kanban;
+    }
+
+    public void setKanban(Kanban kanban) {
+        this.kanban = kanban;
     }
 }

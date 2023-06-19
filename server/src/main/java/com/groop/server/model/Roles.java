@@ -1,4 +1,4 @@
-package com.groop.server.domain;
+package com.groop.server.model;
 import javax.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 

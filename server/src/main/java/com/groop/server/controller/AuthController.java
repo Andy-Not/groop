@@ -1,9 +1,7 @@
-package com.groop.server.web;
+package com.groop.server.controller;
 
-import com.groop.server.domain.Comment;
-import com.groop.server.domain.User;
+import com.groop.server.model.User;
 import com.groop.server.dto.AuthCredentialsRequest;
-import com.groop.server.service.CommentService;
 import com.groop.server.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,8 +12,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")

@@ -1,8 +1,6 @@
-package com.groop.server.domain;
+package com.groop.server.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * @author joandy alejo garcia

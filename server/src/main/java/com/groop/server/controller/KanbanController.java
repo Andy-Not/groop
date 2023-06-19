@@ -1,6 +1,6 @@
-package com.groop.server.web;
+package com.groop.server.controller;
 
-import com.groop.server.domain.Kanban;
+import com.groop.server.model.Kanban;
 import com.groop.server.dto.KanbanDTO;
 import com.groop.server.dto.TaskDTO;
 import com.groop.server.service.KanbanService;

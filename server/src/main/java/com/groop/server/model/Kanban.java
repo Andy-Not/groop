@@ -1,7 +1,6 @@
-package com.groop.server.domain;
+package com.groop.server.model;
 
 import com.sun.istack.NotNull;
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,9 +17,9 @@ public class Kanban {
     private Long id;
     @NotNull
     private String title;
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "kanban_id")
-    private List<Task> tasks;
+//    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+//    @JoinColumn(name = "kanban_id")
+//    private List<Task> tasks;
 
     public String getTitle() {
         return title;
@@ -30,13 +29,13 @@ public class Kanban {
         this.title = name;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
-    }
+//    public List<Task> getTasks() {
+//        return tasks;
+//    }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
+//    public void setTasks(List<Task> tasks) {
+//        this.tasks = tasks;
+//    }
 
     public void setId(Long id) {
         this.id = id;
@@ -47,11 +46,11 @@ public class Kanban {
         return id;
     }
 
-    public void addTask(Task task) {
-
-        if (Objects.isNull(tasks)) {
-            tasks = new ArrayList<>();
-        }
-        tasks.add(task);
-    }
+//    public void addTask(Task task) {
+//
+//        if (Objects.isNull(tasks)) {
+//            tasks = new ArrayList<>();
+//        }
+//        tasks.add(task);
+//    }
 }

@@ -1,6 +1,6 @@
 package com.groop.server.repository;
 
-import com.groop.server.domain.Kanban;
+import com.groop.server.model.Kanban;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

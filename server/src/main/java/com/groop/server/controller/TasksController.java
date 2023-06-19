@@ -1,6 +1,6 @@
-package com.groop.server.web;
+package com.groop.server.controller;
 
-import com.groop.server.domain.Task;
+import com.groop.server.model.Task;
 import com.groop.server.dto.CommentDTO;
 import com.groop.server.dto.TaskDTO;
 import com.groop.server.service.TaskService;
@@ -59,5 +59,14 @@ public class TasksController {
 
     ResponseEntity<?> errorMessage(){
         return new ResponseEntity<>("something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PutMapping("/updateTaskKanbanColumn/{taskId}/{kanbanId}")
+    public ResponseEntity<?> updateTask(@PathVariable Long taskId, @PathVariable Long kanbanId){
+        try {
+            return new ResponseEntity<>(taskService.updateTaskKanbanColumn(taskId, kanbanId), HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return errorMessage();
+        }
     }
 }

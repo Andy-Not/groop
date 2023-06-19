@@ -4,33 +4,85 @@ import {
   IconButton,
   Spacer,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, AddIcon } from "@chakra-ui/icons";
 import Task from "./Task";
+import TaskModal from "./TaskModal";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 
-const Board = (props) => {
+const Board = ({ kanbanId, kanban }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <Box
-      sx={{ backgroundColor: "red", minWidth: "16em", minHeight: "30em", p: 1 }}
-    >
-      <HStack backgroundColor={"pink.400"} minHeight={10}>
-        <Text sx={{ backgroundColor: "brown" }}>{props.title}</Text>
-        <Spacer />
-        <HStack>
-          <IconButton
-            colorScheme="blue"
-            aria-label="Search database"
-            icon={<DeleteIcon />}
-          />
+    <>
+      <Box
+        key={kanbanId}
+        _hover={{ cursor: "pointer" }}
+        sx={{
+          backgroundColor: "#f2f2f2",
+          minWidth: "16em",
+          minHeight: "30em",
+          p: 1,
+          borderRadius: 5,
+        }}
+      >
+        <HStack mb={2} minHeight={10}>
+          <Text fontWeight={"bold"}>{kanban.title}</Text>
+          <Spacer />
+          <HStack>
+            <IconButton
+              variant={"outline"}
+              colorScheme="facebook"
+              aria-label="Search database"
+              icon={<DeleteIcon />}
+            />
+          </HStack>
         </HStack>
-      </HStack>
-      <VStack>
-        {props.tasks.map((e) => {
-          return <Task title={e.title}></Task>;
-        })}
-      </VStack>
-    </Box>
+        <Droppable droppableId={kanbanId} key={kanbanId}>
+          {(provided) => {
+            return (
+              <VStack
+                width={"100%"}
+                minHeight={"100%"}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {kanban.tasks.map((task, index) => {
+                  return (
+                    <Draggable
+                      key={task.id}
+                      id={task.id}
+                      draggableId={task.id.toString()}
+                      index={index}
+                    >
+                      {(provided) => {
+                        return (
+                          <Task
+                            provided={provided}
+                            key={task.id}
+                            id={task.id}
+                            title={task.title}
+                            index={task.index}
+                          />
+                        );
+                      }}
+                    </Draggable>
+                  );
+                })}
+                {provided.placeholder}
+              </VStack>
+            );
+          }}
+        </Droppable>
+        <Box display={"flex"} justifyContent={"center"}>
+          <IconButton icon={<AddIcon />} onClick={onOpen} mt={2} size={"sm"} />
+        </Box>
+      </Box>
+
+      <TaskModal isOpen={isOpen} onClose={onClose} />
+    </>
   );
 };
 export default Board;
