@@ -48,10 +48,15 @@ public class KanbanService {
         return kanbanSwimLaneRepository.findById(kanban_id).isEmpty() ? Optional.empty() :  kanbanSwimLaneRepository.findById(kanban_id);
     }
 
-    public List<KanbanSwimLane> findAllKanban() {
-        List<KanbanSwimLane> kanbanSwimLanes = new ArrayList<>();
-        kanbanSwimLaneRepository.findAll().forEach(kanbanSwimLanes::add);
-        return kanbanSwimLanes;
+    public List<KanbanDTO> findAllKanban() {
+        List<KanbanDTO> kanbans = new ArrayList<>();
+        for (Kanban kanban : kanbanRepository.findAll()) {
+            KanbanDTO kanbanDTO = new KanbanDTO();
+            kanbanDTO.setTitle(kanban.getTitle());
+            kanbanDTO.setOwner_id(kanban.getOwner().getId());
+            kanbans.add(kanbanDTO);
+        }
+        return kanbans;
     }
 
     public void deleteKanban(KanbanSwimLane kanbanSwimLane) {
