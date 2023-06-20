@@ -27,8 +27,9 @@ public class KanbanService {
    @Autowired
     private KanbanRepository kanbanRepository;
 
-    public KanbanSwimLane saveNewKanban(KanbanDTO kanbanDTO) {
-        return kanbanSwimLaneRepository.save(convertKanbanDTOToKanban(kanbanDTO));
+    public KanbanDTO saveNewKanban(KanbanDTO kanbanDTO, User user) {
+        kanbanRepository.save(convertKanbanDTOToKanban(kanbanDTO, user));
+        return kanbanDTO;
     }
     public KanbanSwimLane addNewTaskToKanban(Long kanban_id, TaskDTO taskDTO) {
         KanbanSwimLane kanbanSwimLane = kanbanSwimLaneRepository.findById(kanban_id).get();
@@ -58,10 +59,11 @@ public class KanbanService {
     }
 
 
-    public KanbanSwimLane convertKanbanDTOToKanban(KanbanDTO kanbanDTO){
-        KanbanSwimLane kanbanSwimLane = new KanbanSwimLane();
-        kanbanSwimLane.setTitle(kanbanDTO.getTitle());
-        return kanbanSwimLane;
+    public Kanban convertKanbanDTOToKanban(KanbanDTO kanbanDTO, User user){
+        Kanban kanban = new Kanban();
+        kanban.setOwner(user);
+        kanban.setTitle(kanbanDTO.getTitle());
+        return kanban;
     }
 
     public Task convertTaskDTOtoTask(TaskDTO taskDTO){
