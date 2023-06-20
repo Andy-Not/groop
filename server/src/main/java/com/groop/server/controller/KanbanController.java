@@ -30,15 +30,18 @@ public class KanbanController {
     @Autowired
     private UserRepository userService;
 
-    @PostMapping("addKanban")
+    @PostMapping("createKanban")
     ResponseEntity<?> createKanban(@RequestBody KanbanDTO kanbanDTO){
+        Optional<User> optionalUser = userService.findById(kanbanDTO.getOwner_id());
         try {
-            return new ResponseEntity<>(kanbanService.saveNewKanban(kanbanDTO), HttpStatus.ACCEPTED);
+            if (optionalUser.isPresent()){
+                return new ResponseEntity<>(kanbanService.saveNewKanban(kanbanDTO, optionalUser.get()), HttpStatus.ACCEPTED);
+            }
+            return new ResponseEntity<>("user does not exist", HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             return errorMessage();
         }
     }
-
     @PostMapping("addUser/{kanban_id}/{user_id}")
     ResponseEntity<?> addUserToKanban(@PathVariable Long user_id,@PathVariable Long kanban_id){
         Optional<User> optionalUser = userService.findById(user_id);
