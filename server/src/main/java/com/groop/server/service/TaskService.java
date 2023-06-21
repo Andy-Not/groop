@@ -33,11 +33,10 @@ public class TaskService {
 
     public List<TaskDTO> findAllTasksBySwimLaneId(Long swimLaneId){
         List<Task> allTasks = taskRepository.findAll();
-
         List<TaskDTO> allTasksDto = new ArrayList<>();
 
         for (Task task : allTasks) {
-            if (Objects.equals(task.getId(), swimLaneId)) {
+            if (Objects.equals(task.getKanbanSwimLane().getId(), swimLaneId)) {
                 TaskDTO taskDTO = new TaskDTO();
                 taskDTO.setId(task.getId());
                 taskDTO.setTitle(task.getTitle());
@@ -45,7 +44,6 @@ public class TaskService {
                 allTasksDto.add(taskDTO);
             }
         }
-
         return allTasksDto;
     }
     public Task addCommentToTask(Long task_id, CommentDTO commentDTO) {
@@ -67,9 +65,6 @@ public class TaskService {
 
     public Task convertTaskDTOtoTask(TaskDTO taskDTO){
         Task task = new Task();
-//        task.setTitle(taskDTO.getTitle());
-//        task.setDescription(taskDTO.getDescription());
-//        task.setStatus(taskDTO.getStatus());
         return task;
     }
 
@@ -81,7 +76,6 @@ public class TaskService {
         Optional<Task> task = taskRepository.findById(taskId);
         Optional<KanbanSwimLane> kanban = kanbanSwimLaneRepository.findById(kanbanId);
         if (task.isPresent() && kanban.isPresent()) {
-//            task.get().setKanban(kanban.get());
             taskRepository.save(task.get());
         }
         return task;
