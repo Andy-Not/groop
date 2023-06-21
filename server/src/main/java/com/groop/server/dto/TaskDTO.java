@@ -6,6 +6,8 @@ import com.groop.server.model.TaskStatus;
  * @author joandy alejo garcia
  */
 public class TaskDTO {
+    private Long id;
+
     public String getTitle() {
         return title;
     }
@@ -31,6 +33,15 @@ public class TaskDTO {
     }
 
     private String title;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     private String description;
 
     private TaskStatus status;

@@ -9,6 +9,9 @@ import com.groop.server.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -28,9 +31,25 @@ public class TaskService {
         return taskRepository.save(convertTaskDTOtoTask(taskDTO));
     }
 
+    public List<TaskDTO> findAllTasksBySwimLaneId(Long swimLaneId){
+        List<Task> allTasks = taskRepository.findAll();
+
+        List<TaskDTO> allTasksDto = new ArrayList<>();
+
+        for (Task task : allTasks) {
+            if (Objects.equals(task.getId(), swimLaneId)) {
+                TaskDTO taskDTO = new TaskDTO();
+                taskDTO.setId(task.getId());
+                taskDTO.setTitle(task.getTitle());
+                taskDTO.setDescription(task.getDescription());
+                allTasksDto.add(taskDTO);
+            }
+        }
+
+        return allTasksDto;
+    }
     public Task addCommentToTask(Long task_id, CommentDTO commentDTO) {
         Task task = taskRepository.findById(task_id).get();
-//        task.addComment(convertCommentDtoToComment(commentDTO));
         return taskRepository.save(task);
     }
 
