@@ -1,5 +1,6 @@
 package com.groop.server.controller;
 
+import com.groop.server.dto.UserDTO;
 import com.groop.server.model.Kanban;
 import com.groop.server.model.KanbanSwimLane;
 import com.groop.server.dto.KanbanDTO;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -61,16 +64,6 @@ public class KanbanController {
         }
     }
 
-
-    @GetMapping("getAllKanban")
-    ResponseEntity<?> getAllKanban(){
-        try {
-            return new ResponseEntity<>(kanbanService.findAllKanban(),HttpStatus.ACCEPTED);
-        }catch (Exception e){
-            return errorMessage();
-        }
-    };
-
     @PostMapping("addTaskToKanban/{kanban_id}")
     ResponseEntity<?> addNewTaskToKanbanById(@PathVariable Long kanban_id, @RequestBody TaskDTO taskDTO){
         Optional<KanbanSwimLane> optKanban = kanbanService.findSwimLaneById(kanban_id);
@@ -82,6 +75,37 @@ public class KanbanController {
         }catch (Exception e){
             return errorMessage();
         }
+    }
+
+    @GetMapping("getAllKanban")
+    ResponseEntity<?> getAllKanban(){
+        try {
+            return new ResponseEntity<>(kanbanService.findAllKanban(),HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return errorMessage();
+        }
+    }
+    @GetMapping("AllUsersInKanban/{kanban_id}")
+    ResponseEntity<?> getAllUsersInKanban(@PathVariable Long kanban_id){
+        Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
+        List<UserDTO> usersList = new ArrayList<>();
+        try {
+            if (optionalKanban.isPresent()){
+               List<User> users = optionalKanban.get().getUsers();
+                for (User user : users) {
+                    UserDTO userInKanban = new UserDTO();
+                    userInKanban.setId(user.getId());
+                    userInKanban.setUsername(user.getUsername());
+                    usersList.add(userInKanban);
+                }
+                return new ResponseEntity<>(usersList, HttpStatus.ACCEPTED);
+            }
+            return new ResponseEntity<>("Kanban does not exist", HttpStatus.BAD_REQUEST);
+
+        }catch (Exception e){
+            return errorMessage();
+        }
+
     }
 
     @DeleteMapping("/{kanban_id}")

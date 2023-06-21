@@ -29,4 +29,59 @@ public class Task {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "task", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getTaskOrder() {
+        return taskOrder;
+    }
+
+    public void setTaskOrder(int taskOrder) {
+        this.taskOrder = taskOrder;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public KanbanSwimLane getKanbanSwimLane() {
+        return kanbanSwimLane;
+    }
+
+    public void setKanbanSwimLane(KanbanSwimLane kanbanSwimLane) {
+        this.kanbanSwimLane = kanbanSwimLane;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }

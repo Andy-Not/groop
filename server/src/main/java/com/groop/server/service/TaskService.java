@@ -9,6 +9,9 @@ import com.groop.server.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -28,9 +31,23 @@ public class TaskService {
         return taskRepository.save(convertTaskDTOtoTask(taskDTO));
     }
 
+    public List<TaskDTO> findAllTasksBySwimLaneId(Long swimLaneId){
+        List<Task> allTasks = taskRepository.findAll();
+        List<TaskDTO> allTasksDto = new ArrayList<>();
+
+        for (Task task : allTasks) {
+            if (Objects.equals(task.getKanbanSwimLane().getId(), swimLaneId)) {
+                TaskDTO taskDTO = new TaskDTO();
+                taskDTO.setId(task.getId());
+                taskDTO.setTitle(task.getTitle());
+                taskDTO.setDescription(task.getDescription());
+                allTasksDto.add(taskDTO);
+            }
+        }
+        return allTasksDto;
+    }
     public Task addCommentToTask(Long task_id, CommentDTO commentDTO) {
         Task task = taskRepository.findById(task_id).get();
-//        task.addComment(convertCommentDtoToComment(commentDTO));
         return taskRepository.save(task);
     }
 
@@ -48,9 +65,6 @@ public class TaskService {
 
     public Task convertTaskDTOtoTask(TaskDTO taskDTO){
         Task task = new Task();
-//        task.setTitle(taskDTO.getTitle());
-//        task.setDescription(taskDTO.getDescription());
-//        task.setStatus(taskDTO.getStatus());
         return task;
     }
 
@@ -62,7 +76,6 @@ public class TaskService {
         Optional<Task> task = taskRepository.findById(taskId);
         Optional<KanbanSwimLane> kanban = kanbanSwimLaneRepository.findById(kanbanId);
         if (task.isPresent() && kanban.isPresent()) {
-//            task.get().setKanban(kanban.get());
             taskRepository.save(task.get());
         }
         return task;

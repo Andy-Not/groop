@@ -1,5 +1,6 @@
 package com.groop.server.service;
 
+import com.groop.server.dto.SwimLaneDTO;
 import com.groop.server.model.Kanban;
 import com.groop.server.model.KanbanSwimLane;
 import com.groop.server.model.Task;
@@ -11,18 +12,18 @@ import com.groop.server.repository.KanbanSwimLaneRepository;
 import com.groop.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 /**
  * @author joandy alejo garcia
  */
 @Service
 public class KanbanService {
-
    @Autowired
     private KanbanSwimLaneRepository kanbanSwimLaneRepository;
+   @Autowired
+   private SwimLaneService swimLaneService;
 
    @Autowired
     private KanbanRepository kanbanRepository;
@@ -48,16 +49,28 @@ public class KanbanService {
         return kanbanSwimLaneRepository.findById(kanban_id).isEmpty() ? Optional.empty() :  kanbanSwimLaneRepository.findById(kanban_id);
     }
 
-    public List<KanbanSwimLane> findAllKanban() {
-        List<KanbanSwimLane> kanbanSwimLanes = new ArrayList<>();
-        kanbanSwimLaneRepository.findAll().forEach(kanbanSwimLanes::add);
-        return kanbanSwimLanes;
+    public List<KanbanDTO> findAllKanban() {
+        List<KanbanDTO> kanbans = new ArrayList<>();
+        List<KanbanSwimLane> swimLanes = kanbanSwimLaneRepository.findAll();
+
+        for (Kanban kanban : kanbanRepository.findAll()) {
+            List<SwimLaneDTO> kanbanSwimLanes = new LinkedList<>();
+            for (KanbanSwimLane swimLane : swimLanes) {
+                SwimLaneDTO swimLaneDTO = swimLaneService.covertSwimLaneToDTO(swimLane);
+                if (Objects.equals(swimLane.getKanban().getId(), kanban.getId())){
+                    kanbanSwimLanes.add(swimLaneDTO);
+                }
+            }
+
+            KanbanDTO kanbanDTO = covertKanbanToDTO(kanban, kanbanSwimLanes);
+            kanbans.add(kanbanDTO);
+        }
+        return kanbans;
     }
 
     public void deleteKanban(KanbanSwimLane kanbanSwimLane) {
         kanbanSwimLaneRepository.delete(kanbanSwimLane);
     }
-
 
     public Kanban convertKanbanDTOToKanban(KanbanDTO kanbanDTO, User user){
         Kanban kanban = new Kanban();
@@ -66,11 +79,12 @@ public class KanbanService {
         return kanban;
     }
 
-    public Task convertTaskDTOtoTask(TaskDTO taskDTO){
-        Task task = new Task();
-//        task.setDescription(taskDTO.getDescription());
-//        task.setTitle(taskDTO.getTitle());
-//        task.setStatus(taskDTO.getStatus());
-        return task;
+    public KanbanDTO covertKanbanToDTO(Kanban kanban, List<SwimLaneDTO> kanbanSwimLanes){
+        KanbanDTO kanbanDTO = new KanbanDTO();
+        kanbanDTO.setTitle(kanban.getTitle());
+        kanbanDTO.setOwner_id(kanban.getOwner().getId());
+        kanbanDTO.setSwimLanes(kanbanSwimLanes);
+        return kanbanDTO;
     }
+
 }
