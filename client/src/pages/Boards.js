@@ -49,7 +49,8 @@ const Boards = () => {
     const boards = [];
 
     axios.get("api/kanban/getAllKanban").then((e) => {
-      e.data.forEach((e) => {
+      console.log(e.data[0].swimLanes);
+      e.data[0].swimLanes.forEach((e) => {
         boards.push(e);
       });
       const groupedObjects = boards.reduce((group, obj) => {
@@ -60,7 +61,7 @@ const Boards = () => {
     });
   }, []);
   return (
-    <HStack>
+    <HStack maxW={"full"} overflow={"scroll"}>
       {Object.keys(columns).length === 0 ? (
         <HStack>
           <BoardSkeleton />

@@ -11,11 +11,9 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useContext, useState } from "react";
-import { GlobalBoardContext } from "../stores/BoardStore";
+import { useState } from "react";
 
 const TaskModal = (props) => {
-  const [globalBoardList, setGlobalBoardList] = useContext(GlobalBoardContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -29,22 +27,22 @@ const TaskModal = (props) => {
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    const indexOfKanban = globalBoardList.findIndex(
-      (item) => item.id === props.kanbanId
-    );
-    const localBoardArr = globalBoardList;
-
-    axios
-      .post(`api/kanban/addTaskToKanban/${props.kanbanId}`, {
-        title: title,
-        description: description,
-        status: "TODO",
-      })
-      .then((res) => {
-        localBoardArr[indexOfKanban].tasks.push(res.data.tasks.slice(-1)[0]);
-        setGlobalBoardList(localBoardArr);
-        props.toggleModal();
-      });
+    // const indexOfKanban = globalBoardList.findIndex(
+    //   (item) => item.id === props.kanbanId
+    // );
+    // const localBoardArr = globalBoardList;
+    //
+    // axios
+    //   .post(`api/kanban/addTaskToKanban/${props.kanbanId}`, {
+    //     title: title,
+    //     description: description,
+    //     status: "TODO",
+    //   })
+    //   .then((res) => {
+    //     localBoardArr[indexOfKanban].tasks.push(res.data.tasks.slice(-1)[0]);
+    //     setGlobalBoardList(localBoardArr);
+    //     props.toggleModal();
+    //   });
   };
 
   return (

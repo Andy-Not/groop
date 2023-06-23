@@ -1,8 +1,11 @@
 import Boards from "./pages/Boards";
+import SidebarWithHeader from "./component/nav/SidebarWithHeader";
 function App() {
   return (
     <>
-      <Boards />
+      <SidebarWithHeader>
+        <Boards />
+      </SidebarWithHeader>
     </>
   );
 }
