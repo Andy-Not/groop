@@ -4,11 +4,6 @@ import {
   Card,
   CardBody,
   HStack,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Skeleton,
   SkeletonText,
   Spacer,
@@ -17,8 +12,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
-import axios from "axios";
 
 const BoardSkeleton = () => {
   return (

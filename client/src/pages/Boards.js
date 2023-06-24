@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import Board from "../component/Board";
 import { HStack } from "@chakra-ui/react";
 import { DragDropContext } from "react-beautiful-dnd";
 import BoardSkeleton from "../component/skeletons/BoardSkeleton";
+import { useContext } from "react";
+import { GlobalSwimLaneStateContext } from "../store/SwimLaneConetext";
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -43,25 +43,13 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 const Boards = () => {
-  const [columns, setColumns] = useState({});
-  useEffect(() => {
-    console.log("use effect ran call was made");
-    const boards = [];
-
-    axios.get("api/kanban/getAllKanban").then((e) => {
-      e.data.forEach((e) => {
-        boards.push(e);
-      });
-      const groupedObjects = boards.reduce((group, obj) => {
-        group[obj.id] = obj;
-        return group;
-      }, {});
-      setColumns(groupedObjects);
-    });
-  }, []);
+  const [currentSwimLane, setCurrentSwimLane] = useContext(
+    GlobalSwimLaneStateContext
+  );
+  console.log("RELOAD");
   return (
-    <HStack>
-      {Object.keys(columns).length === 0 ? (
+    <HStack maxW={"full"} overflow={"scroll"}>
+      {Object.keys(currentSwimLane).length === 0 ? (
         <HStack>
           <BoardSkeleton />
           <BoardSkeleton />
@@ -69,9 +57,11 @@ const Boards = () => {
         </HStack>
       ) : (
         <DragDropContext
-          onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+          onDragEnd={(result) =>
+            onDragEnd(result, currentSwimLane, setCurrentSwimLane)
+          }
         >
-          {Object.entries(columns).map(([kanbanId, kanban], index) => {
+          {Object.entries(currentSwimLane).map(([kanbanId, kanban], index) => {
             return <Board key={kanbanId} kanbanId={kanbanId} kanban={kanban} />;
           })}
         </DragDropContext>

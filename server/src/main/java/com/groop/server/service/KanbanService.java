@@ -81,6 +81,7 @@ public class KanbanService {
 
     public KanbanDTO covertKanbanToDTO(Kanban kanban, List<SwimLaneDTO> kanbanSwimLanes){
         KanbanDTO kanbanDTO = new KanbanDTO();
+        kanbanDTO.setId(kanban.getId());
         kanbanDTO.setTitle(kanban.getTitle());
         kanbanDTO.setOwner_id(kanban.getOwner().getId());
         kanbanDTO.setSwimLanes(kanbanSwimLanes);
