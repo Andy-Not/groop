@@ -9,6 +9,7 @@ import java.util.List;
  * @author joandy alejo garcia
  */
 public class KanbanDTO {
+    private Long id;
     private long owner_id;
 
     private String title;
@@ -37,5 +38,13 @@ public class KanbanDTO {
 
     public void setSwimLanes(List<SwimLaneDTO> swimLanes) {
         this.swimLanes = swimLanes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -11,10 +11,12 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
+import { useContext } from "react";
+import { GlobalKanbanStateContext } from "../../store/AppContext";
 
-const LinkItems = [{ name: "web-page" }, { name: "blog-post" }];
+const SidebarContent = ({ onClose, kanbans, ...rest }) => {
+  const [globalState] = useContext(GlobalKanbanStateContext);
 
-const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
       transition="3s ease"
@@ -32,9 +34,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
+      {globalState.map((kanban) => (
+        <NavItem id={kanban.id} key={kanban.id}>
+          {kanban.title}
         </NavItem>
       ))}
       <Divider />
