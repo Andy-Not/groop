@@ -7,18 +7,10 @@ const NavItem = ({ children, ...rest }) => {
   const [currentSwimLane, setCurrentSwimLane] = useContext(
     GlobalSwimLaneStateContext
   );
-  const [prevState, setPrevState] = useState("");
-
-  function isEqual(obj1, obj2) {
-    return JSON.stringify(obj1) === JSON.stringify(obj2);
-  }
 
   const findSwimLanes = (kanbanId) => {
-    if (isEqual(currentSwimLane, prevState)) {
-      return;
-    }
     axios.get(`api/kanban/getSwimLaneIn/${kanbanId}`).then((e) => {
-      console.log("CALL MADE IN NavItem.js");
+      console.log("API CALLED");
       const arrOfLanes = e.data;
       const groupedObjects = arrOfLanes.reduce((group, obj) => {
         group[obj.id] = obj;
@@ -26,10 +18,10 @@ const NavItem = ({ children, ...rest }) => {
       }, {});
       setCurrentSwimLane(groupedObjects);
     });
-    setPrevState(currentSwimLane);
   };
 
   const onClickHandler = (event) => {
+    console.log("clicked");
     const id = event.target.id;
     findSwimLanes(id);
   };
