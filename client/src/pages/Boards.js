@@ -46,6 +46,7 @@ const Boards = () => {
   const [currentSwimLane, setCurrentSwimLane] = useContext(
     GlobalSwimLaneStateContext
   );
+  console.log("RELOAD");
   return (
     <HStack maxW={"full"} overflow={"scroll"}>
       {Object.keys(currentSwimLane).length === 0 ? (
