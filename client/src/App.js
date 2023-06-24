@@ -2,7 +2,7 @@ import Boards from "./pages/Boards";
 import SidebarWithHeader from "./component/nav/SidebarWithHeader";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { GlobalKanbanStateContext } from "./store/AppContext";
+import { GlobalKanbanStateContext } from "./store/KanbanContext";
 function App() {
   const [columns, setColumns] = useState({});
   const [globalState, setGlobalState] = useContext(GlobalKanbanStateContext);

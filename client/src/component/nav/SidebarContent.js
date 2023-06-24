@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { useContext } from "react";
-import { GlobalKanbanStateContext } from "../../store/AppContext";
+import { GlobalKanbanStateContext } from "../../store/KanbanContext";
 
 const SidebarContent = ({ onClose, kanbans, ...rest }) => {
   const [globalState] = useContext(GlobalKanbanStateContext);

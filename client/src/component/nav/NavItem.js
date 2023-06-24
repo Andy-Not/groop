@@ -1,6 +1,30 @@
 import { Flex, Link } from "@chakra-ui/react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { GlobalSwimLaneStateContext } from "../../store/SwimLaneConetext";
 
 const NavItem = ({ children, ...rest }) => {
+  const [currentSwimLane, setCurrentSwimLane] = useContext(
+    GlobalSwimLaneStateContext
+  );
+  const [prevState, setPrevState] = useState("");
+
+  const findSwimLanes = (kanbanId) => {
+    axios.get(`api/kanban/getSwimLaneIn/${kanbanId}`).then((e) => {
+      console.log(e.data);
+      const arrOfLanes = e.data;
+      const groupedObjects = arrOfLanes.reduce((group, obj) => {
+        group[obj.id] = obj;
+        return group;
+      }, {});
+      setCurrentSwimLane(groupedObjects);
+    });
+  };
+
+  const onClickHandler = (event) => {
+    const id = event.target.id;
+    findSwimLanes(id);
+  };
   return (
     <Link
       href="#"
@@ -18,9 +42,7 @@ const NavItem = ({ children, ...rest }) => {
           bg: "cyan.400",
           color: "white",
         }}
-        onClick={(event) => {
-          console.log(event);
-        }}
+        onClick={onClickHandler}
         {...rest}
       >
         {children}
