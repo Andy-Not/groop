@@ -9,9 +9,16 @@ const NavItem = ({ children, ...rest }) => {
   );
   const [prevState, setPrevState] = useState("");
 
+  function isEqual(obj1, obj2) {
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+  }
+
   const findSwimLanes = (kanbanId) => {
+    if (isEqual(currentSwimLane, prevState)) {
+      return;
+    }
     axios.get(`api/kanban/getSwimLaneIn/${kanbanId}`).then((e) => {
-      console.log(e.data);
+      console.log("CALL MADE IN NavItem.js");
       const arrOfLanes = e.data;
       const groupedObjects = arrOfLanes.reduce((group, obj) => {
         group[obj.id] = obj;
@@ -19,6 +26,7 @@ const NavItem = ({ children, ...rest }) => {
       }, {});
       setCurrentSwimLane(groupedObjects);
     });
+    setPrevState(currentSwimLane);
   };
 
   const onClickHandler = (event) => {
