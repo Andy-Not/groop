@@ -2,7 +2,7 @@ import Board from "../component/Board";
 import { HStack } from "@chakra-ui/react";
 import { DragDropContext } from "react-beautiful-dnd";
 import BoardSkeleton from "../component/skeletons/BoardSkeleton";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { GlobalSwimLaneStateContext } from "../store/SwimLaneConetext";
 
 const onDragEnd = (result, columns, setColumns) => {
@@ -43,7 +43,6 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 const Boards = () => {
-  // const [currentSwimLane, setCurrentSwimLane] = useState({});
   const [currentSwimLane, setCurrentSwimLane] = useContext(
     GlobalSwimLaneStateContext
   );
