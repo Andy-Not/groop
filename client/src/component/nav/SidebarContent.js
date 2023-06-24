@@ -16,7 +16,6 @@ import { GlobalKanbanStateContext } from "../../store/KanbanContext";
 
 const SidebarContent = ({ onClose, kanbans, ...rest }) => {
   const [globalState] = useContext(GlobalKanbanStateContext);
-
   return (
     <Box
       transition="3s ease"

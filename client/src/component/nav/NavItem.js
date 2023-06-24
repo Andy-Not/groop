@@ -2,28 +2,38 @@ import { Flex, Link } from "@chakra-ui/react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { GlobalSwimLaneStateContext } from "../../store/SwimLaneConetext";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const NavItem = ({ children, ...rest }) => {
+  const [currentId, setCurrentId] = useState("");
+  const [laneData, setLaneData] = useLocalStorage({}, "swimLane");
   const [currentSwimLane, setCurrentSwimLane] = useContext(
     GlobalSwimLaneStateContext
   );
 
+  const isEqual = (obj1, obj2) => {
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+  };
+
   const findSwimLanes = (kanbanId) => {
+    if (isEqual(laneData, currentSwimLane) && kanbanId === currentId) {
+      return;
+    }
     axios.get(`api/kanban/getSwimLaneIn/${kanbanId}`).then((e) => {
-      console.log("API CALLED");
       const arrOfLanes = e.data;
       const groupedObjects = arrOfLanes.reduce((group, obj) => {
         group[obj.id] = obj;
         return group;
       }, {});
       setCurrentSwimLane(groupedObjects);
+      setLaneData(groupedObjects);
     });
   };
 
   const onClickHandler = (event) => {
-    console.log("clicked");
     const id = event.target.id;
     findSwimLanes(id);
+    setCurrentId(id);
   };
   return (
     <Link
