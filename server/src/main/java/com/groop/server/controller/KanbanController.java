@@ -9,6 +9,7 @@ import com.groop.server.model.User;
 import com.groop.server.repository.KanbanRepository;
 import com.groop.server.repository.UserRepository;
 import com.groop.server.service.KanbanService;
+import com.groop.server.service.SwimLaneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,9 @@ public class KanbanController {
 
     @Autowired
     private UserRepository userService;
+
+    @Autowired
+    private SwimLaneService swimLaneService;
 
     @PostMapping("createKanban")
     ResponseEntity<?> createKanban(@RequestBody KanbanDTO kanbanDTO){
@@ -81,6 +85,19 @@ public class KanbanController {
     ResponseEntity<?> getAllKanban(){
         try {
             return new ResponseEntity<>(kanbanService.findAllKanban(),HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return errorMessage();
+        }
+    }
+
+    @GetMapping("getSwimLaneIn/{kanban_id}")
+    ResponseEntity<?> getSwimLaneInKanban(@PathVariable Long kanban_id){
+        Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
+        try {
+            if (optionalKanban.isPresent()){
+                return new ResponseEntity<>(swimLaneService.findSwimLaneKanbanId(kanban_id),HttpStatus.ACCEPTED);
+            }
+            return new ResponseEntity<>("SwimLane with id of " + kanban_id + " does not exist",HttpStatus.ACCEPTED);
         }catch (Exception e){
             return errorMessage();
         }

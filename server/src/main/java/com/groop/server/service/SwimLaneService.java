@@ -6,6 +6,11 @@ import com.groop.server.repository.KanbanSwimLaneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 /**
  * @author joandy alejo garcia
  */
@@ -13,6 +18,20 @@ import org.springframework.stereotype.Service;
 public class SwimLaneService {
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private KanbanSwimLaneRepository swimLaneRepository;
+
+    public List<SwimLaneDTO> findSwimLaneKanbanId(Long kanban_id) {
+        List<KanbanSwimLane> allKanbanSwimLanes = swimLaneRepository.findAll();
+        List<SwimLaneDTO> allSwimLanesInKanban = new ArrayList<>();
+        for (KanbanSwimLane swimLane : allKanbanSwimLanes){
+            if (Objects.equals(swimLane.getKanban().getId(), kanban_id)){
+                allSwimLanesInKanban.add(covertSwimLaneToDTO(swimLane));
+            }
+        }
+        return allSwimLanesInKanban;
+    }
 
     public SwimLaneDTO covertSwimLaneToDTO(KanbanSwimLane swimLane){
         SwimLaneDTO swimLaneDTO = new SwimLaneDTO();

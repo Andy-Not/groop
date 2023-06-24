@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import Board from "../component/Board";
 import { HStack } from "@chakra-ui/react";
 import { DragDropContext } from "react-beautiful-dnd";
 import BoardSkeleton from "../component/skeletons/BoardSkeleton";
+import { useState } from "react";
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -44,22 +43,6 @@ const onDragEnd = (result, columns, setColumns) => {
 
 const Boards = () => {
   const [columns, setColumns] = useState({});
-  useEffect(() => {
-    console.log("use effect ran call was made");
-    const boards = [];
-
-    axios.get("api/kanban/getAllKanban").then((e) => {
-      console.log(e.data[0].swimLanes);
-      e.data[0].swimLanes.forEach((e) => {
-        boards.push(e);
-      });
-      const groupedObjects = boards.reduce((group, obj) => {
-        group[obj.id] = obj;
-        return group;
-      }, {});
-      setColumns(groupedObjects);
-    });
-  }, []);
   return (
     <HStack maxW={"full"} overflow={"scroll"}>
       {Object.keys(columns).length === 0 ? (

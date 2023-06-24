@@ -18,6 +18,9 @@ const NavItem = ({ children, ...rest }) => {
           bg: "cyan.400",
           color: "white",
         }}
+        onClick={(event) => {
+          console.log(event);
+        }}
         {...rest}
       >
         {children}
