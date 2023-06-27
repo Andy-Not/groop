@@ -10,7 +10,6 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useState } from "react";
 
 const TaskModal = (props) => {
