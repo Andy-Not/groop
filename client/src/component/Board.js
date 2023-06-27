@@ -45,7 +45,7 @@ const Board = ({ kanbanId, kanban }) => {
             return (
               <VStack
                 width={"100%"}
-                minHeight={"100%"}
+                minHeight={"50vh"}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >

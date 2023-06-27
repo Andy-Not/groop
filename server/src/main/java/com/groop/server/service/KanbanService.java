@@ -68,8 +68,8 @@ public class KanbanService {
         return kanbans;
     }
 
-    public void deleteKanban(KanbanSwimLane kanbanSwimLane) {
-        kanbanSwimLaneRepository.delete(kanbanSwimLane);
+    public void deleteKanban(Kanban kanban) {
+        kanbanRepository.delete(kanban);
     }
 
     public Kanban convertKanbanDTOToKanban(KanbanDTO kanbanDTO, User user){

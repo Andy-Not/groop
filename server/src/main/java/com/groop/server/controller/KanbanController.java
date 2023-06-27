@@ -10,6 +10,7 @@ import com.groop.server.repository.KanbanRepository;
 import com.groop.server.repository.UserRepository;
 import com.groop.server.service.KanbanService;
 import com.groop.server.service.SwimLaneService;
+import com.groop.server.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,9 @@ public class KanbanController {
 
     @Autowired
     private SwimLaneService swimLaneService;
+
+    @Autowired
+    private TaskService taskService;
 
     @PostMapping("createKanban")
     ResponseEntity<?> createKanban(@RequestBody KanbanDTO kanbanDTO){
@@ -95,7 +99,7 @@ public class KanbanController {
         Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
         try {
             if (optionalKanban.isPresent()){
-                return new ResponseEntity<>(swimLaneService.findSwimLaneKanbanId(kanban_id),HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(swimLaneService.findAllSwimLanesByKanbanId(kanban_id),HttpStatus.ACCEPTED);
             }
             return new ResponseEntity<>("SwimLane with id of " + kanban_id + " does not exist",HttpStatus.ACCEPTED);
         }catch (Exception e){
@@ -128,8 +132,10 @@ public class KanbanController {
     @DeleteMapping("/{kanban_id}")
     public ResponseEntity<?> deleteKanban(@PathVariable Long kanban_id){
         try {
-            Optional<KanbanSwimLane> optionalKanban = kanbanService.findSwimLaneById(kanban_id);
+            Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
             if (optionalKanban.isPresent()){
+                taskService.deleteALlTasksInKanban(kanban_id);
+                swimLaneService.deleteSwimLanesInKanban(kanban_id);
                 kanbanService.deleteKanban(optionalKanban.get());
                 return new ResponseEntity<String>("Kanban has been deleted", HttpStatus.ACCEPTED);
             }

@@ -63,6 +63,15 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
+    public void  deleteALlTasksInKanban(Long kanbanId){
+        List<Task> taskList = taskRepository.findAll();
+        for (Task task : taskList) {
+            if (Objects.equals(task.getKanbanSwimLane().getKanban().getId(), kanbanId)){
+                taskRepository.delete(task);
+            }
+        }
+    }
+
     public Task convertTaskDTOtoTask(TaskDTO taskDTO){
         Task task = new Task();
         return task;
