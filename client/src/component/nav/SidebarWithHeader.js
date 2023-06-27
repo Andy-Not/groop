@@ -26,7 +26,7 @@ const SidebarWithHeader = ({ children, kanbansL }) => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent navOnClose={onClose} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}

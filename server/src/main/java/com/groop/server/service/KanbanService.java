@@ -29,8 +29,10 @@ public class KanbanService {
     private KanbanRepository kanbanRepository;
 
     public KanbanDTO saveNewKanban(KanbanDTO kanbanDTO, User user) {
-        kanbanRepository.save(convertKanbanDTOToKanban(kanbanDTO, user));
-        return kanbanDTO;
+        Kanban kanban = convertKanbanDTOToKanban(kanbanDTO, user);
+        List<SwimLaneDTO> swimLanes = new ArrayList<>();
+        kanbanRepository.save(kanban);
+        return covertKanbanToDTO(kanban, swimLanes);
     }
     public KanbanSwimLane addNewTaskToKanban(Long kanban_id, TaskDTO taskDTO) {
         KanbanSwimLane kanbanSwimLane = kanbanSwimLaneRepository.findById(kanban_id).get();
