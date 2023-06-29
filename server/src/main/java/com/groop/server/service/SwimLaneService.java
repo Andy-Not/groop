@@ -31,6 +31,13 @@ public class SwimLaneService {
         }
     }
 
+    public SwimLaneDTO createSwimLane(Kanban kanban, String title){
+        KanbanSwimLane kanbanSwimLane = new KanbanSwimLane();
+        kanbanSwimLane.setKanban(kanban);
+        kanbanSwimLane.setTitle(title);
+        swimLaneRepository.save(kanbanSwimLane);
+        return covertSwimLaneToDTO(kanbanSwimLane);
+    }
     public List<SwimLaneDTO> findAllSwimLanesByKanbanId(Long kanbanId) {
         List<KanbanSwimLane> allKanbanSwimLanes = swimLaneRepository.findAll();
         List<SwimLaneDTO> allSwimLanesInKanban = new ArrayList<>();
