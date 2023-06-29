@@ -1,5 +1,6 @@
 package com.groop.server.controller;
 
+import com.groop.server.dto.SwimLaneDTO;
 import com.groop.server.dto.UserDTO;
 import com.groop.server.model.Kanban;
 import com.groop.server.model.KanbanSwimLane;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,9 +46,16 @@ public class KanbanController {
     @PostMapping("createKanban")
     ResponseEntity<?> createKanban(@RequestBody KanbanDTO kanbanDTO){
         Optional<User> optionalUser = userService.findById(kanbanDTO.getOwner_id());
+        String[] defaultTasks = {"TODO", "IN-PROGRESS", "DONE"};
+        List<SwimLaneDTO> swimLanes = new ArrayList<>();
         try {
             if (optionalUser.isPresent()){
-                return new ResponseEntity<>(kanbanService.saveNewKanban(kanbanDTO, optionalUser.get()), HttpStatus.ACCEPTED);
+               KanbanDTO response = kanbanService.saveNewKanban(kanbanDTO, optionalUser.get());
+                for (String title : defaultTasks) {
+                   swimLanes.add(swimLaneService.createSwimLane(kanbanService.findKanbanById(response.getId()).get(), title));
+                }
+                response.setSwimLanes(swimLanes);
+                return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
             }
             return new ResponseEntity<>("user does not exist", HttpStatus.BAD_REQUEST);
         }catch (Exception e){

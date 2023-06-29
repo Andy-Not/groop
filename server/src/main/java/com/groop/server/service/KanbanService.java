@@ -30,7 +30,7 @@ public class KanbanService {
 
     public KanbanDTO saveNewKanban(KanbanDTO kanbanDTO, User user) {
         Kanban kanban = convertKanbanDTOToKanban(kanbanDTO, user);
-        List<SwimLaneDTO> swimLanes = new ArrayList<>();
+        List<SwimLaneDTO> swimLanes = kanbanDTO.getSwimLanes();
         kanbanRepository.save(kanban);
         return covertKanbanToDTO(kanban, swimLanes);
     }
@@ -63,7 +63,6 @@ public class KanbanService {
                     kanbanSwimLanes.add(swimLaneDTO);
                 }
             }
-
             KanbanDTO kanbanDTO = covertKanbanToDTO(kanban, kanbanSwimLanes);
             kanbans.add(kanbanDTO);
         }

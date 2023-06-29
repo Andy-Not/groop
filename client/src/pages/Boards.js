@@ -1,9 +1,10 @@
 import Board from "../component/Board";
-import { HStack } from "@chakra-ui/react";
+import { HStack, Text } from "@chakra-ui/react";
 import { DragDropContext } from "react-beautiful-dnd";
 import BoardSkeleton from "../component/skeletons/BoardSkeleton";
 import { useContext } from "react";
 import { GlobalSwimLaneStateContext } from "../store/SwimLaneConetext";
+import { GlobalKanbanStateContext } from "../store/KanbanContext";
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -46,15 +47,12 @@ const Boards = () => {
   const [currentSwimLane, setCurrentSwimLane] = useContext(
     GlobalSwimLaneStateContext
   );
+  const [globalKanban] = useContext(GlobalKanbanStateContext);
   console.log("RELOAD");
   return (
     <HStack maxW={"full"} overflow={"scroll"}>
-      {Object.keys(currentSwimLane).length === 0 ? (
-        <HStack>
-          <BoardSkeleton />
-          <BoardSkeleton />
-          <BoardSkeleton />
-        </HStack>
+      {globalKanban.length === 0 ? (
+        <Text>NO PROJECTS HAVE BEEN CREATED</Text>
       ) : (
         <DragDropContext
           onDragEnd={(result) =>

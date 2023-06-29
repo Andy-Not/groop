@@ -44,6 +44,7 @@ const SidebarContent = ({ navOnClose, kanbans, ...rest }) => {
       })
       .then((res) => {
         kanban = res.data;
+        console.log(kanban);
       })
       .then(() => {
         setGlobalState((prev) => [...prev, kanban]);
