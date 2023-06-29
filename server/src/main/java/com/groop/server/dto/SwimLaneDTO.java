@@ -11,6 +11,8 @@ import java.util.List;
 public class SwimLaneDTO {
     private Long id;
 
+    private  Long kanbanID;
+
     private String title;
 
     private List<TaskDTO> tasks;

@@ -52,6 +52,7 @@ public class SwimLaneService {
     public SwimLaneDTO covertSwimLaneToDTO(KanbanSwimLane swimLane){
         SwimLaneDTO swimLaneDTO = new SwimLaneDTO();
         swimLaneDTO.setId(swimLane.getId());
+        swimLaneDTO.setKanbanID(swimLane.getKanban().getId());
         swimLaneDTO.setTitle(swimLane.getTitle());
         swimLaneDTO.setTasks(taskService.findAllTasksBySwimLaneId(swimLane.getId()));
         return swimLaneDTO;
