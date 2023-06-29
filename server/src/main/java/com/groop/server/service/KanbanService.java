@@ -47,10 +47,6 @@ public class KanbanService {
         return kanbanRepository.findById(kanban_id).isEmpty() ? Optional.empty() :  kanbanRepository.findById(kanban_id);
     }
 
-    public Optional<KanbanSwimLane> findSwimLaneById(Long kanban_id) {
-        return kanbanSwimLaneRepository.findById(kanban_id).isEmpty() ? Optional.empty() :  kanbanSwimLaneRepository.findById(kanban_id);
-    }
-
     public List<KanbanDTO> findAllKanban() {
         List<KanbanDTO> kanbans = new ArrayList<>();
         List<KanbanSwimLane> swimLanes = kanbanSwimLaneRepository.findAll();

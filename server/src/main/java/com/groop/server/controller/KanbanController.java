@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -81,12 +80,12 @@ public class KanbanController {
         }
     }
 
-    @PostMapping("addTaskToKanban/{kanban_id}")
-    ResponseEntity<?> addNewTaskToKanbanById(@PathVariable Long kanban_id, @RequestBody TaskDTO taskDTO){
-        Optional<KanbanSwimLane> optKanban = kanbanService.findSwimLaneById(kanban_id);
+    @PostMapping("createNewTask/{swimLaneID}")
+    ResponseEntity<?> addNewTaskToKanbanById(@PathVariable Long swimLaneID, @RequestBody TaskDTO taskDTO){
+        Optional<KanbanSwimLane> optionalSwimLane = swimLaneService.findSwimLaneById(swimLaneID);
         try {
-            if (optKanban.isPresent()){
-                return new ResponseEntity<>(kanbanService.addNewTaskToKanban(kanban_id,taskDTO), HttpStatus.ACCEPTED);
+            if (optionalSwimLane.isPresent()){
+                return new ResponseEntity<>(kanbanService.addNewTaskToKanban(swimLaneID,taskDTO), HttpStatus.ACCEPTED);
             }
             return noKanbanFound();
         }catch (Exception e){

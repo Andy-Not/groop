@@ -1,6 +1,7 @@
 package com.groop.server.service;
 
 import com.groop.server.dto.SwimLaneDTO;
+import com.groop.server.dto.TaskDTO;
 import com.groop.server.model.Kanban;
 import com.groop.server.model.KanbanSwimLane;
 import com.groop.server.repository.KanbanSwimLaneRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author joandy alejo garcia
@@ -29,6 +31,10 @@ public class SwimLaneService {
                 swimLaneRepository.delete(swimLane);
             }
         }
+    }
+
+    public Optional<KanbanSwimLane> findSwimLaneById(Long swimLaneID) {
+        return swimLaneRepository.findById(swimLaneID).isEmpty() ? Optional.empty() :  swimLaneRepository.findById(swimLaneID);
     }
 
     public SwimLaneDTO createSwimLane(Kanban kanban, String title){
