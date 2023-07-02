@@ -1,7 +1,6 @@
 import Board from "../component/Board";
 import { HStack, Text } from "@chakra-ui/react";
 import { DragDropContext } from "react-beautiful-dnd";
-import BoardSkeleton from "../component/skeletons/BoardSkeleton";
 import { useContext } from "react";
 import { GlobalSwimLaneStateContext } from "../store/SwimLaneConetext";
 import { GlobalKanbanStateContext } from "../store/KanbanContext";

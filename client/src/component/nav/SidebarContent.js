@@ -23,11 +23,13 @@ import { AddIcon } from "@chakra-ui/icons";
 import { useContext, useState } from "react";
 import { GlobalKanbanStateContext } from "../../store/KanbanContext";
 import axios from "axios";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const SidebarContent = ({ navOnClose, kanbans, ...rest }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [globalState, setGlobalState] = useContext(GlobalKanbanStateContext);
   const [kanbanTitle, setKanbanTitle] = useState("");
+  const [swimLane, setSwimLane] = useLocalStorage({}, "swimLane");
 
   const onTitleInputChange = (event) => {
     setKanbanTitle(event.target.value);
@@ -48,6 +50,12 @@ const SidebarContent = ({ navOnClose, kanbans, ...rest }) => {
       })
       .then(() => {
         setGlobalState((prev) => [...prev, kanban]);
+        const groupedObjects = kanban.swimLanes.reduce((group, obj) => {
+          group[obj.id] = obj;
+          return group;
+        }, {});
+        setSwimLane(groupedObjects);
+        console.log(swimLane);
         onClose();
       });
   };
