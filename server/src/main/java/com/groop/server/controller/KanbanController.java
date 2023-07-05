@@ -102,6 +102,22 @@ public class KanbanController {
         }
     }
 
+    @GetMapping("getKanban/{kanbanID}")
+    public ResponseEntity<?> getKanban(@PathVariable Long kanbanID){
+        try {
+            Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanbanID);
+            if (optionalKanban.isPresent()){
+                List<SwimLaneDTO> swimLanes = swimLaneService.findAllSwimLanesByKanbanId(kanbanID);
+                return new ResponseEntity<>(kanbanService.covertKanbanToDTO(optionalKanban.get(), swimLanes),
+                        HttpStatus.ACCEPTED);
+            }
+            return new ResponseEntity<>("Kanban does not exist", HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+           return errorMessage();
+        }
+
+    }
+
     @GetMapping("getSwimLaneIn/{kanban_id}")
     ResponseEntity<?> getSwimLaneInKanban(@PathVariable Long kanban_id){
         Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);

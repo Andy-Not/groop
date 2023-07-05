@@ -1,5 +1,5 @@
 import Board from "../component/Board";
-import { HStack, Text } from "@chakra-ui/react";
+import { HStack, Text, Box } from "@chakra-ui/react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useContext } from "react";
 import { GlobalSwimLaneStateContext } from "../store/SwimLaneConetext";
@@ -49,21 +49,27 @@ const Boards = () => {
   const [globalKanban] = useContext(GlobalKanbanStateContext);
   console.log("RELOAD");
   return (
-    <HStack maxW={"full"} overflow={"scroll"}>
-      {globalKanban.length === 0 ? (
-        <Text>NO PROJECTS HAVE BEEN CREATED</Text>
-      ) : (
-        <DragDropContext
-          onDragEnd={(result) =>
-            onDragEnd(result, currentSwimLane, setCurrentSwimLane)
-          }
-        >
-          {Object.entries(currentSwimLane).map(([kanbanId, kanban], index) => {
-            return <Board key={kanbanId} kanbanId={kanbanId} kanban={kanban} />;
-          })}
-        </DragDropContext>
-      )}
-    </HStack>
+    <>
+      <HStack maxW={"full"} overflow={"scroll"}>
+        {globalKanban.length === 0 ? (
+          <Text>NO PROJECTS HAVE BEEN CREATED</Text>
+        ) : (
+          <DragDropContext
+            onDragEnd={(result) =>
+              onDragEnd(result, currentSwimLane, setCurrentSwimLane)
+            }
+          >
+            {Object.entries(currentSwimLane).map(
+              ([kanbanId, kanban], index) => {
+                return (
+                  <Board key={kanbanId} kanbanId={kanbanId} kanban={kanban} />
+                );
+              }
+            )}
+          </DragDropContext>
+        )}
+      </HStack>
+    </>
   );
 };
 export default Boards;
