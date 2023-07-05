@@ -3,8 +3,6 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { GlobalSwimLaneStateContext } from "../../store/SwimLaneConetext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import ButtonMenu from "./ButtonMenu";
-
 const NavItem = ({ children, ...rest }) => {
   const [currentId, setCurrentId] = useState("");
   const [laneData, setLaneData] = useLocalStorage({}, "swimLane");
@@ -38,30 +36,28 @@ const NavItem = ({ children, ...rest }) => {
     setCurrentId(id);
   };
   return (
-    <ButtonMenu id={currentId}>
-      <Link
-        w={"full"}
-        href="#"
-        style={{ textDecoration: "none" }}
-        _focus={{ boxShadow: "none" }}
+    <Link
+      w={"full"}
+      href="#"
+      style={{ textDecoration: "none" }}
+      _focus={{ boxShadow: "none" }}
+    >
+      <Flex
+        align="center"
+        p="4"
+        borderRadius="lg"
+        role="group"
+        cursor="pointer"
+        _hover={{
+          bg: "cyan.400",
+          color: "white",
+        }}
+        onClick={onClickHandler}
+        {...rest}
       >
-        <Flex
-          align="center"
-          p="4"
-          borderRadius="lg"
-          role="group"
-          cursor="pointer"
-          _hover={{
-            bg: "cyan.400",
-            color: "white",
-          }}
-          onClick={onClickHandler}
-          {...rest}
-        >
-          {children}
-        </Flex>
-      </Link>
-    </ButtonMenu>
+        {children}
+      </Flex>
+    </Link>
   );
 };
 export default NavItem;

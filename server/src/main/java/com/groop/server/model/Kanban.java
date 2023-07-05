@@ -22,13 +22,6 @@ public class Kanban {
     @ManyToMany
     private List<User> users;
 
-    public Kanban() {
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
     public void addUser(User user) {
         if (Objects.isNull(users)){
             users = new ArrayList<>();
