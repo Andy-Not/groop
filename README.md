@@ -50,9 +50,12 @@ Technologies used in the project:
 ```
 docker compose -p container-name -f docker-compose.yml up
 ```
->The default database info
-- Database: groopdb
-- Username: admin
-- Password: password
-- port: 3306
-- URL: jdbc:mysql://localhost:3306/groopdb
+<h2>The default database info</h2>
+<p>- Database: groopdb -</p>
+<p>- Username: admin -</p> 
+<p>- Password: password -</p> 
+<p>- port: 3306 -</p> 
+<p>- URL: jdbc:mysql://localhost:3306/groopdb -</p>
+
+
+
