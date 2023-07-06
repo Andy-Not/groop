@@ -3,6 +3,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { GlobalSwimLaneStateContext } from "../../store/SwimLaneConetext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { GlobalCurrentKanbanStateContext } from "../../store/CurrentKanbanContext";
 const NavItem = ({ children, ...rest }) => {
   const [currentId, setCurrentId] = useState("");
   const [laneData, setLaneData] = useLocalStorage({}, "swimLane");
@@ -10,6 +11,13 @@ const NavItem = ({ children, ...rest }) => {
     GlobalSwimLaneStateContext
   );
 
+  const [currentKanban, setCurrentKanban] = useContext(
+    GlobalCurrentKanbanStateContext
+  );
+  const [currentKanban1, setCurrentKanban1] = useLocalStorage(
+    currentKanban,
+    "currentKanban"
+  );
   const isEqual = (obj1, obj2) => {
     return JSON.stringify(obj1) === JSON.stringify(obj2);
   };
@@ -30,10 +38,20 @@ const NavItem = ({ children, ...rest }) => {
     });
   };
 
+  const getKanban = (id) => {
+    if (isEqual(currentKanban, currentKanban1) && id === currentId) {
+      return;
+    }
+    axios.get(`api/kanban/getKanban/${id}`).then((e) => {
+      setCurrentKanban(e.data);
+      setCurrentKanban1(e.data);
+    });
+  };
   const onClickHandler = (event) => {
     const id = event.target.id;
     findSwimLanes(id);
     setCurrentId(id);
+    getKanban(id);
   };
   return (
     <Link
