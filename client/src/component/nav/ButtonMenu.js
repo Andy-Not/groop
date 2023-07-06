@@ -11,11 +11,21 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { GlobalCurrentKanbanStateContext } from "../../store/CurrentKanbanContext";
+import { GlobalSwimLaneStateContext } from "../../store/SwimLaneConetext";
 
 const ButtonMenu = ({ id, children }) => {
   const [laneData, setLaneData] = useLocalStorage({}, "swimLane");
+  const [localKanban, setLocalKanban] = useLocalStorage({}, "currentKanban");
   const [menuIsHidden, setMenuIsHidden] = useState(false);
+  const [currentKanban, setCurrentKanban] = useContext(
+    GlobalCurrentKanbanStateContext
+  );
+  const [currentSwimLane, setCurrentSwimLane] = useContext(
+    GlobalSwimLaneStateContext
+  );
+
   const delKanban = () => {
     axios.delete(`/api/kanban/${id}`).then((res) => {
       console.log(res);
@@ -24,6 +34,9 @@ const ButtonMenu = ({ id, children }) => {
     setLaneData({});
     document.getElementById(id).remove();
     setMenuIsHidden(true);
+    setCurrentKanban({});
+    setCurrentSwimLane({});
+    setLocalKanban({});
   };
   return (
     <Flex

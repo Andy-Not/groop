@@ -20,9 +20,11 @@ import { FiBell, FiChevronDown, FiMenu } from "react-icons/fi";
 import ButtonMenu from "./ButtonMenu";
 import { useContext } from "react";
 import { GlobalCurrentKanbanStateContext } from "../../store/CurrentKanbanContext";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const MobileNav = ({ onOpen, ...rest }) => {
   const [currentKanban] = useContext(GlobalCurrentKanbanStateContext);
+  const [localKanban, setLocalKanban] = useLocalStorage({}, "currentKanban");
 
   return (
     <>
@@ -104,8 +106,12 @@ const MobileNav = ({ onOpen, ...rest }) => {
           </Flex>
         </HStack>
       </Flex>
-      <Flex pt={2} pb={2} justifyContent={"center"} bg={"white"}>
-        <HStack>
+      <Flex p={2} justifyContent={"flex-end"} bg={"white"}>
+        <HStack
+          display={`${
+            Object.keys(currentKanban).length === 0 ? "none" : "flex"
+          }`}
+        >
           <Text fontWeight={"bold"}>{currentKanban.title}</Text>
           <Divider orientation={"vertical"} />
           <AvatarGroup size="md" max={1}>
