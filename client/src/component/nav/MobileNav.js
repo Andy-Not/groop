@@ -18,8 +18,12 @@ import {
 } from "@chakra-ui/react";
 import { FiBell, FiChevronDown, FiMenu } from "react-icons/fi";
 import ButtonMenu from "./ButtonMenu";
+import { useContext } from "react";
+import { GlobalCurrentKanbanStateContext } from "../../store/CurrentKanbanContext";
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  const [currentKanban] = useContext(GlobalCurrentKanbanStateContext);
+
   return (
     <>
       <Flex
@@ -102,14 +106,14 @@ const MobileNav = ({ onOpen, ...rest }) => {
       </Flex>
       <Flex pt={2} pb={2} justifyContent={"center"} bg={"white"}>
         <HStack>
-          <Text fontWeight={"bold"}>project name</Text>
+          <Text fontWeight={"bold"}>{currentKanban.title}</Text>
           <Divider orientation={"vertical"} />
           <AvatarGroup size="md" max={1}>
             <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
             <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />
           </AvatarGroup>
           <Divider orientation={"vertical"} />
-          <ButtonMenu>
+          <ButtonMenu id={currentKanban.id}>
             <Button>settings</Button>
           </ButtonMenu>
         </HStack>
