@@ -42,3 +42,14 @@ Technologies used in the project:
 *   SpringBoot
 *   Hibernate
 *   Chakra-UI
+  
+## Docker container setup
+- **step 1 -**  If not already installed download and install [docker](https://www.docker.com)
+- **step 2 -** (optional) Edit the `docker-compose.yml` file found in the docker folder to best fit your prefrence, if this step is skipped the default username will be **admin** and the password will be **password**
+- **step 3 -** Open your terminal navigate to the location of the `docker-compose.yml` file and run the following command :  `docker compose -p container-name -f docker-compose.yml up`
+>The default database info
+- Database: groopdb
+- Username: admin
+- Password: password
+- port: 3306
+- URL: jdbc:mysql://localhost:3306/groopdb
