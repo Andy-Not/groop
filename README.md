@@ -24,14 +24,6 @@ Here're some of the project's best features:
 npx create-react-app my-app
 ```
 
-<p>2. set up a local docker container</p>
-
-```
-run docker-compose.yml
-```
-
-  
-  
 <h2>Built with</h2>
 
 Technologies used in the project:
