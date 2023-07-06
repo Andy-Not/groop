@@ -1,6 +1,6 @@
 <h1 align="center" id="title">GROOP - Project Management App</h1>
 
-<p id="description">A Project Management tool to manage projects. :)</p>
+<p id="description">Groop is an innovative and collaborative Kanban project management tool designed to streamline project organization and team collaboration. This intuitive platform empowers users to create, manage, and track projects seamlessly using a Kanban board approach. With Groop, teams can efficiently coordinate tasks, enhance productivity, and achieve project success.)</p>
 
 <h2>Project Screenshots:</h2>
 
