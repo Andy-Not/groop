@@ -29,6 +29,11 @@ public class TaskService {
         return convertTaskToDTO(taskRepository.save(convertTaskDTOtoTask(taskDTO, swimLane)));
     }
 
+    public TaskDTO createNewTask(KanbanSwimLane swimLane, TaskDTO taskDTO){
+        Task task = convertTaskDTOtoTask(taskDTO, swimLane);
+        return convertTaskToDTO(taskRepository.save(task));
+    }
+
     public List<TaskDTO> findAllTasksBySwimLaneId(Long swimLaneId){
         List<Task> allTasks = taskRepository.findAll();
         List<TaskDTO> allTasksDto = new ArrayList<>();
@@ -73,6 +78,7 @@ public class TaskService {
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setId(task.getId());
         taskDTO.setDescription(task.getDescription());
+        taskDTO.setStatus(TaskStatus.DONE);
         taskDTO.setTitle(task.getTitle());
         return taskDTO;
     }

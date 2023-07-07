@@ -34,10 +34,10 @@ public class KanbanService {
         kanbanRepository.save(kanban);
         return covertKanbanToDTO(kanban, swimLanes);
     }
-    public KanbanSwimLane addNewTaskToKanban(Long kanban_id, TaskDTO taskDTO) {
-        KanbanSwimLane kanbanSwimLane = kanbanSwimLaneRepository.findById(kanban_id).get();
-        return kanbanSwimLaneRepository.save(kanbanSwimLane);
-    }
+//    public KanbanSwimLane addNewTaskToKanban(Long kanban_id, TaskDTO taskDTO) {
+//        KanbanSwimLane kanbanSwimLane = kanbanSwimLaneRepository.findById(kanban_id).get();
+//        return kanbanSwimLaneRepository.save(kanbanSwimLane);
+//    }
 
     public void addUserToKanbanById(User user, Kanban kanban){
         kanban.addUser(user);

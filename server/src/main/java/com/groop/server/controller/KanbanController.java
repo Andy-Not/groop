@@ -61,9 +61,9 @@ public class KanbanController {
             return errorMessage();
         }
     }
-    @PostMapping("addUser/{kanban_id}/{user_id}")
-    ResponseEntity<?> addUserToKanban(@PathVariable Long user_id,@PathVariable Long kanban_id){
-        Optional<User> optionalUser = userService.findById(user_id);
+    @PostMapping("addUser/{kanban_id}/{userID}")
+    ResponseEntity<?> addUserToKanban(@PathVariable Long userID, @PathVariable Long kanban_id){
+        Optional<User> optionalUser = userService.findById(userID);
         Optional<Kanban> optionalKanban = kanbanRepository.findById(kanban_id);
         try {
             if (optionalUser.isPresent() && optionalKanban.isPresent()){
@@ -81,11 +81,11 @@ public class KanbanController {
     }
 
     @PostMapping("createNewTask/{swimLaneID}")
-    ResponseEntity<?> addNewTaskToKanbanById(@PathVariable Long swimLaneID, @RequestBody TaskDTO taskDTO){
+    ResponseEntity<?> addNewTaskToSwimLane(@PathVariable Long swimLaneID, @RequestBody TaskDTO taskDTO){
         Optional<KanbanSwimLane> optionalSwimLane = swimLaneService.findSwimLaneById(swimLaneID);
         try {
             if (optionalSwimLane.isPresent()){
-                return new ResponseEntity<>(kanbanService.addNewTaskToKanban(swimLaneID,taskDTO), HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(taskService.createNewTask(optionalSwimLane.get(),taskDTO), HttpStatus.ACCEPTED);
             }
             return noKanbanFound();
         }catch (Exception e){
@@ -118,21 +118,21 @@ public class KanbanController {
 
     }
 
-    @GetMapping("getSwimLaneIn/{kanban_id}")
-    ResponseEntity<?> getSwimLaneInKanban(@PathVariable Long kanban_id){
-        Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
+    @GetMapping("getSwimLaneIn/{kanbanID}")
+    ResponseEntity<?> getSwimLaneInKanban(@PathVariable Long kanbanID){
+        Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanbanID);
         try {
             if (optionalKanban.isPresent()){
-                return new ResponseEntity<>(swimLaneService.findAllSwimLanesByKanbanId(kanban_id),HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(swimLaneService.findAllSwimLanesByKanbanId(kanbanID),HttpStatus.ACCEPTED);
             }
-            return new ResponseEntity<>("SwimLane with id of " + kanban_id + " does not exist",HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("SwimLane with id of " + kanbanID + " does not exist",HttpStatus.ACCEPTED);
         }catch (Exception e){
             return errorMessage();
         }
     }
-    @GetMapping("AllUsersInKanban/{kanban_id}")
-    ResponseEntity<?> getAllUsersInKanban(@PathVariable Long kanban_id){
-        Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
+    @GetMapping("AllUsersInKanban/{kanbanID}")
+    ResponseEntity<?> getAllUsersInKanban(@PathVariable Long kanbanID){
+        Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanbanID);
         List<UserDTO> usersList = new ArrayList<>();
         try {
             if (optionalKanban.isPresent()){
@@ -153,13 +153,13 @@ public class KanbanController {
 
     }
 
-    @DeleteMapping("/{kanban_id}")
-    public ResponseEntity<?> deleteKanban(@PathVariable Long kanban_id){
+    @DeleteMapping("/{kanbanID}")
+    public ResponseEntity<?> deleteKanban(@PathVariable Long kanbanID){
         try {
-            Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanban_id);
+            Optional<Kanban> optionalKanban = kanbanService.findKanbanById(kanbanID);
             if (optionalKanban.isPresent()){
-                taskService.deleteALlTasksInKanban(kanban_id);
-                swimLaneService.deleteSwimLanesInKanban(kanban_id);
+                taskService.deleteALlTasksInKanban(kanbanID);
+                swimLaneService.deleteSwimLanesInKanban(kanbanID);
                 kanbanService.deleteKanban(optionalKanban.get());
                 return new ResponseEntity<String>("Kanban has been deleted", HttpStatus.ACCEPTED);
             }
