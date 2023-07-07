@@ -26,18 +26,6 @@ Here're some of the project's best features:
 ```
 npx create-react-app my-app
 ```
-
-<h2>Built with</h2>
-
-Technologies used in the project:
-
-*   Java
-*   React.js
-*   SQL
-*   SpringBoot
-*   Hibernate
-*   Chakra-UI
-  
 ## Docker container setup
 - **step 1 -**  If not already installed download and install [docker](https://www.docker.com)
 - **step 2 -** (optional) Edit the `docker-compose.yml` file found in the docker folder to best fit your prefrence, if this step is skipped the default username will be **admin** and the password will be **password**
@@ -52,5 +40,14 @@ docker compose -p container-name -f docker-compose.yml up
 <p>- port: 3306 -</p> 
 <p>- URL: jdbc:mysql://localhost:3306/groopdb -</p>
 
+<h2>Built with</h2>
 
+Technologies used in the project:
+
+*   Java
+*   React.js
+*   SQL
+*   SpringBoot
+*   Hibernate
+*   Chakra-UI
 
