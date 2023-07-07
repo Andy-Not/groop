@@ -14,7 +14,10 @@
 
 Here're some of the project's best features:
 
-*   Keep track of your projects
+*   Keep track of your projects.
+*   Manage your team.
+*   Track your progress.
+
 
 <h2>Installation Steps:</h2>
 
