@@ -3,13 +3,10 @@ package com.groop.server.service;
 import com.groop.server.dto.SwimLaneDTO;
 import com.groop.server.model.Kanban;
 import com.groop.server.model.KanbanSwimLane;
-import com.groop.server.model.Task;
 import com.groop.server.dto.KanbanDTO;
-import com.groop.server.dto.TaskDTO;
 import com.groop.server.model.User;
 import com.groop.server.repository.KanbanRepository;
 import com.groop.server.repository.KanbanSwimLaneRepository;
-import com.groop.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,10 +31,6 @@ public class KanbanService {
         kanbanRepository.save(kanban);
         return covertKanbanToDTO(kanban, swimLanes);
     }
-//    public KanbanSwimLane addNewTaskToKanban(Long kanban_id, TaskDTO taskDTO) {
-//        KanbanSwimLane kanbanSwimLane = kanbanSwimLaneRepository.findById(kanban_id).get();
-//        return kanbanSwimLaneRepository.save(kanbanSwimLane);
-//    }
 
     public void addUserToKanbanById(User user, Kanban kanban){
         kanban.addUser(user);

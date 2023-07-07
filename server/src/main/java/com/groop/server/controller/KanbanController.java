@@ -3,9 +3,7 @@ package com.groop.server.controller;
 import com.groop.server.dto.SwimLaneDTO;
 import com.groop.server.dto.UserDTO;
 import com.groop.server.model.Kanban;
-import com.groop.server.model.KanbanSwimLane;
 import com.groop.server.dto.KanbanDTO;
-import com.groop.server.dto.TaskDTO;
 import com.groop.server.model.User;
 import com.groop.server.repository.KanbanRepository;
 import com.groop.server.repository.UserRepository;
@@ -80,19 +78,6 @@ public class KanbanController {
         }
     }
 
-    @PostMapping("createNewTask/{swimLaneID}")
-    ResponseEntity<?> addNewTaskToSwimLane(@PathVariable Long swimLaneID, @RequestBody TaskDTO taskDTO){
-        Optional<KanbanSwimLane> optionalSwimLane = swimLaneService.findSwimLaneById(swimLaneID);
-        try {
-            if (optionalSwimLane.isPresent()){
-                return new ResponseEntity<>(taskService.createNewTask(optionalSwimLane.get(),taskDTO), HttpStatus.ACCEPTED);
-            }
-            return noKanbanFound();
-        }catch (Exception e){
-            return errorMessage();
-        }
-    }
-
     @GetMapping("getAllKanban")
     ResponseEntity<?> getAllKanban(){
         try {
@@ -111,7 +96,7 @@ public class KanbanController {
                 return new ResponseEntity<>(kanbanService.covertKanbanToDTO(optionalKanban.get(), swimLanes),
                         HttpStatus.ACCEPTED);
             }
-            return new ResponseEntity<>("Kanban does not exist", HttpStatus.NOT_FOUND);
+            return noKanbanFound();
         }catch (Exception e){
            return errorMessage();
         }
@@ -145,7 +130,7 @@ public class KanbanController {
                 }
                 return new ResponseEntity<>(usersList, HttpStatus.ACCEPTED);
             }
-            return new ResponseEntity<>("Kanban does not exist", HttpStatus.BAD_REQUEST);
+            return noKanbanFound();
 
         }catch (Exception e){
             return errorMessage();
@@ -163,7 +148,7 @@ public class KanbanController {
                 kanbanService.deleteKanban(optionalKanban.get());
                 return new ResponseEntity<String>("Kanban has been deleted", HttpStatus.ACCEPTED);
             }
-            return new ResponseEntity<String>("Kanban was not found", HttpStatus.BAD_REQUEST);
+            return noKanbanFound();
         }catch (Exception e) {
             return errorMessage();
         }
