@@ -1,13 +1,9 @@
 package com.groop.server.service;
-import com.groop.server.model.Comment;
 import com.groop.server.model.KanbanSwimLane;
 import com.groop.server.model.Task;
-import com.groop.server.dto.CommentDTO;
 import com.groop.server.dto.TaskDTO;
 import com.groop.server.model.TaskStatus;
-import com.groop.server.repository.KanbanSwimLaneRepository;
 import com.groop.server.repository.TaskRepository;
-import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

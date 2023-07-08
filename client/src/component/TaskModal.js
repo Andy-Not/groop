@@ -1,18 +1,21 @@
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
   Input,
   Modal,
-  ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalHeader,
   ModalOverlay,
+  Stack,
+  Textarea,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import axios from "axios";
 
-const TaskModal = (props) => {
+const TaskModal = ({ swimLaneID, isOpen, onClose }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -26,58 +29,53 @@ const TaskModal = (props) => {
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    // const indexOfKanban = globalBoardList.findIndex(
-    //   (item) => item.id === props.kanbanId
-    // );
-    // const localBoardArr = globalBoardList;
-    //
-    // axios
-    //   .post(`api/kanban/addTaskToKanban/${props.kanbanId}`, {
-    //     title: title,
-    //     description: description,
-    //     status: "TODO",
-    //   })
-    //   .then((res) => {
-    //     localBoardArr[indexOfKanban].tasks.push(res.data.tasks.slice(-1)[0]);
-    //     setGlobalBoardList(localBoardArr);
-    //     props.toggleModal();
-    //   });
+    axios
+      .post(`api/task/addNewTask/${swimLaneID}`, {
+        title: title,
+        description: description,
+        status: "DONE",
+      })
+      .then((e) => {
+        console.log(e.data);
+      });
   };
 
   return (
-    <Modal isOpen={props.isOpen}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Create a new task</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          p={8}
+        >
           <form onSubmit={handleOnSubmit}>
-            <FormControl>
-              <FormLabel>Title</FormLabel>
-              <Input
-                value={title}
-                onChange={handleTitleChange}
-                name={"title"}
-                type={"text"}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Description</FormLabel>
-              <Input
-                value={description}
-                onChange={handleDescriptionChange}
-                name={"description"}
-                type={"text"}
-              />
-            </FormControl>
-            <Button onClick={props.toggleModal} mt={2}>
-              close
-            </Button>
-            <Button type={"submit"} mt={2} variant="ghost">
-              create
-            </Button>
+            <Stack spacing={4}>
+              <FormControl id="taskTitle">
+                <FormLabel>Title</FormLabel>
+                <Input onChange={handleTitleChange} required type="text" />
+              </FormControl>
+              <FormControl id="taskDescription">
+                <FormLabel>Description</FormLabel>
+                <Textarea onChange={handleDescriptionChange} type="text" />
+              </FormControl>
+              <Stack spacing={10}>
+                <Button
+                  type={"submit"}
+                  bg={"blue.400"}
+                  color={"white"}
+                  _hover={{
+                    bg: "blue.500",
+                  }}
+                >
+                  CREATE
+                </Button>
+              </Stack>
+            </Stack>
           </form>
-        </ModalBody>
+        </Box>
       </ModalContent>
     </Modal>
   );

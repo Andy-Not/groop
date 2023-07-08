@@ -62,7 +62,12 @@ const Boards = () => {
             {Object.entries(currentSwimLane).map(
               ([kanbanId, kanban], index) => {
                 return (
-                  <Board key={kanbanId} kanbanId={kanbanId} kanban={kanban} />
+                  <Board
+                    id={currentSwimLane}
+                    key={kanbanId}
+                    swimLaneID={kanbanId}
+                    kanban={kanban}
+                  />
                 );
               }
             )}
