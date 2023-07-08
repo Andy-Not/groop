@@ -1,14 +1,15 @@
 package com.groop.server.service;
-import com.groop.server.model.Comment;
-import com.groop.server.model.Kanban;
+import com.groop.server.model.KanbanSwimLane;
 import com.groop.server.model.Task;
-import com.groop.server.dto.CommentDTO;
 import com.groop.server.dto.TaskDTO;
-import com.groop.server.repository.KanbanRepository;
+import com.groop.server.model.TaskStatus;
 import com.groop.server.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -20,52 +21,63 @@ public class TaskService {
     @Autowired
     TaskRepository taskRepository;
 
-    @Autowired
-    KanbanRepository kanbanRepository;
-
-
-    public Task saveNewTask(TaskDTO taskDTO) {
-        return taskRepository.save(convertTaskDTOtoTask(taskDTO));
+    public TaskDTO saveNewTask(KanbanSwimLane swimLane,TaskDTO taskDTO) {
+        return convertTaskToDTO(taskRepository.save(convertTaskDTOtoTask(taskDTO, swimLane)));
     }
 
-    public Task addCommentToTask(Long task_id, CommentDTO commentDTO) {
-        Task task = taskRepository.findById(task_id).get();
-//        task.addComment(convertCommentDtoToComment(commentDTO));
-        return taskRepository.save(task);
+    public List<TaskDTO> findAllTasksBySwimLaneId(Long swimLaneId){
+        List<Task> allTasks = taskRepository.findAll();
+        List<TaskDTO> allTasksDto = new ArrayList<>();
+
+        for (Task task : allTasks) {
+            if (Objects.equals(task.getKanbanSwimLane().getId(), swimLaneId)) {
+                TaskDTO taskDTO = new TaskDTO();
+                taskDTO.setId(task.getId());
+                taskDTO.setTitle(task.getTitle());
+                taskDTO.setDescription(task.getDescription());
+                allTasksDto.add(taskDTO);
+            }
+        }
+        return allTasksDto;
     }
-
-
-    public Comment convertCommentDtoToComment(CommentDTO commentDTO) {
-        Comment comment = new Comment();
-        comment.setMessage(commentDTO.getMessage());
-        return comment;
-    }
-
-
     public void deleteTask(Task task) {
         taskRepository.delete(task);
     }
 
-    public Task convertTaskDTOtoTask(TaskDTO taskDTO){
+    public void  deleteALlTasksInKanban(Long kanbanId){
+        List<Task> taskList = taskRepository.findAll();
+        for (Task task : taskList) {
+            if (Objects.equals(task.getKanbanSwimLane().getKanban().getId(), kanbanId)){
+                taskRepository.delete(task);
+            }
+        }
+    }
+
+    public Task convertTaskDTOtoTask(TaskDTO taskDTO, KanbanSwimLane swimLane){
         Task task = new Task();
-        task.setTitle(taskDTO.getTitle());
+        //hard coded at the moment
+        TaskStatus currentStatus = TaskStatus.TODO;
+        task.setKanbanSwimLane(swimLane);
         task.setDescription(taskDTO.getDescription());
-        task.setStatus(taskDTO.getStatus());
+        task.setTaskOrder(1);
+        task.setStatus(currentStatus);
+        task.setTitle(taskDTO.getTitle());
         return task;
     }
+
+    public TaskDTO convertTaskToDTO(Task task){
+        TaskDTO taskDTO = new TaskDTO();
+        taskDTO.setId(task.getId());
+        taskDTO.setDescription(task.getDescription());
+        taskDTO.setStatus(TaskStatus.DONE);
+        taskDTO.setTitle(task.getTitle());
+        return taskDTO;
+    }
+
+
 
     public Optional<Task> findTask(Long id){
         return taskRepository.findById(id);
-    }
-
-    public Optional<Task> updateTaskKanbanColumn(long taskId, long kanbanId) {
-        Optional<Task> task = taskRepository.findById(taskId);
-        Optional<Kanban> kanban = kanbanRepository.findById(kanbanId);
-        if (task.isPresent() && kanban.isPresent()) {
-            task.get().setKanban(kanban.get());
-            taskRepository.save(task.get());
-        }
-        return task;
     }
 
 }

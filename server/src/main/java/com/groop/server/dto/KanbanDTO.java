@@ -1,16 +1,19 @@
 package com.groop.server.dto;
 
+import lombok.Data;
+
+import java.util.List;
+
 /**
  * @author joandy alejo garcia
  */
+@Data
 public class KanbanDTO {
+    private Long id;
+
+    private long owner_id;
+
     private String title;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    private List<SwimLaneDTO> swimLanes;
 }

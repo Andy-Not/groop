@@ -1,18 +1,19 @@
 package com.groop.server.dto;
 
-import com.groop.server.model.TaskStatus;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author joandy alejo garcia
  */
 @Data
-public class TaskDTO {
+public class SwimLaneDTO {
     private Long id;
 
-    private String description;
-
-    private TaskStatus status;
+    private  Long kanbanID;
 
     private String title;
+
+    private List<TaskDTO> tasks;
 }

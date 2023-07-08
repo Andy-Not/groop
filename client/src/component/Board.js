@@ -12,13 +12,12 @@ import Task from "./Task";
 import TaskModal from "./TaskModal";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
-const Board = ({ kanbanId, kanban }) => {
+const Board = ({ id, swimLaneID, kanban }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <>
       <Box
-        key={kanbanId}
+        key={swimLaneID}
         _hover={{ cursor: "pointer" }}
         sx={{
           backgroundColor: "#f2f2f2",
@@ -40,12 +39,12 @@ const Board = ({ kanbanId, kanban }) => {
             />
           </HStack>
         </HStack>
-        <Droppable droppableId={kanbanId} key={kanbanId}>
+        <Droppable droppableId={swimLaneID} key={swimLaneID}>
           {(provided) => {
             return (
               <VStack
                 width={"100%"}
-                minHeight={"100%"}
+                minHeight={"50vh"}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
@@ -80,8 +79,7 @@ const Board = ({ kanbanId, kanban }) => {
           <IconButton icon={<AddIcon />} onClick={onOpen} mt={2} size={"sm"} />
         </Box>
       </Box>
-
-      <TaskModal isOpen={isOpen} onClose={onClose} />
+      <TaskModal swimLaneID={swimLaneID} isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

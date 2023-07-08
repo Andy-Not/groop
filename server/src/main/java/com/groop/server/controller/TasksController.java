@@ -1,8 +1,10 @@
 package com.groop.server.controller;
 
+import com.groop.server.model.KanbanSwimLane;
 import com.groop.server.model.Task;
 import com.groop.server.dto.CommentDTO;
 import com.groop.server.dto.TaskDTO;
+import com.groop.server.service.SwimLaneService;
 import com.groop.server.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,29 +21,21 @@ import java.util.Optional;
 public class TasksController {
     @Autowired
     private TaskService taskService;
-    @PostMapping("addNewTask")
-    ResponseEntity<?> createNewTask(@RequestBody TaskDTO taskDTO){
-        try {
-            return new ResponseEntity<>(taskService.saveNewTask(taskDTO), HttpStatus.ACCEPTED);
-        }catch (Exception e){
-            return errorMessage();
-        }
-    }
 
-    @PostMapping("addCommentToTask/{task_id}")
-    public ResponseEntity<?> addCommentToTaskById(@PathVariable Long task_id, @RequestBody CommentDTO commentDTO){
-        Optional<Task> task = taskService.findTask(task_id);
+    @Autowired
+    private SwimLaneService swimLaneService;
+    @PostMapping("addNewTask/{swimLaneID}")
+    ResponseEntity<?> createNewTask(@RequestBody TaskDTO taskDTO, @PathVariable Long swimLaneID){
+        Optional<KanbanSwimLane> optionalKanbanSwimLane = swimLaneService.findSwimLaneById(swimLaneID);
         try {
-            if (task.isPresent()){
-                taskService.addCommentToTask(task_id, commentDTO);
-                return new ResponseEntity<>("Comment was posted", HttpStatus.ACCEPTED);
+            if (optionalKanbanSwimLane.isPresent()){
+                return new ResponseEntity<>(taskService.saveNewTask(optionalKanbanSwimLane.get() ,taskDTO), HttpStatus.ACCEPTED);
             }
-            return new ResponseEntity<>("task does not exist", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("swim lane does not exist", HttpStatus.NOT_FOUND);
         }catch (Exception e){
             return errorMessage();
         }
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable Long id){
@@ -61,12 +55,4 @@ public class TasksController {
         return new ResponseEntity<>("something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PutMapping("/updateTaskKanbanColumn/{taskId}/{kanbanId}")
-    public ResponseEntity<?> updateTask(@PathVariable Long taskId, @PathVariable Long kanbanId){
-        try {
-            return new ResponseEntity<>(taskService.updateTaskKanbanColumn(taskId, kanbanId), HttpStatus.ACCEPTED);
-        }catch (Exception e){
-            return errorMessage();
-        }
-    }
 }

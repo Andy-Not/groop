@@ -1,11 +1,14 @@
 package com.groop.server.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 /**
  * @author joandy alejo garcia
  */
 @Entity
+@Data
 @Table(name = "comments")
 public class Comment {
     @Id
@@ -14,21 +17,7 @@ public class Comment {
 
     private String message;
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id", nullable = false)
+    private Task task;
 }
