@@ -19,12 +19,12 @@ Here're some of the project's best features:
 *   Track your progress.
 
 
-<h2>Installation Steps:</h2>
+<h2>Client setup</h2>
 
-<p>1. Install React.js</p>
+1 navigate into the `client` folder and install all the packages in the `package.json` file using the following command.
 
 ```
-npx create-react-app my-app
+npm install
 ```
 ## Docker container setup
 - **step 1 -**  If not already installed download and install [docker](https://www.docker.com)
