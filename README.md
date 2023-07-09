@@ -20,6 +20,7 @@ Here're some of the project's best features:
 
 
 <h2>Client setup</h2>
+
 **step 1 -** Navigate into the `client` folder and install all the packages in the `package.json` file using the following command.
 
 ```
