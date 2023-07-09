@@ -21,12 +21,12 @@ Here're some of the project's best features:
 
 <h2>Client setup</h2>
 
-Navigate into the `client` folder and install all the packages in the `package.json` file using the following command. 
+Navigate into the `client` folder and install all the packages in the `package.json` file using the following command in your  terminal. 
 
 ```
 npm install
 ```
-To start the client run the following command.
+To start the client in your terminal type the following command.
 
 ```
 npm install
