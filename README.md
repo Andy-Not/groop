@@ -31,7 +31,7 @@ To start the client in your terminal type the following command.
 ```
 npm install
 ```
-## Docker container setup
+## Docker container setup / database
 - **step 1 -**  If not already installed download and install [docker](https://www.docker.com)
 - **step 2 -** (optional) Edit the `docker-compose.yml` file found in the docker folder to best fit your prefrence, if this step is skipped the default username will be **admin** and the password will be **password**
 - **step 3 -** Open your terminal navigate to the location of the `docker-compose.yml` file and run the following command :
