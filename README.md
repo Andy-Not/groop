@@ -29,7 +29,7 @@ npm install
 To start the client in your terminal type the following command.
 
 ```
-npm install
+npm start
 ```
 ## Docker container setup / database
 - **step 1 -**  If not already installed download and install [docker](https://www.docker.com)
