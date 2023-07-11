@@ -3,6 +3,7 @@ import SidebarWithHeader from "./component/nav/SidebarWithHeader";
 import { useContext, useEffect } from "react";
 import axios from "axios";
 import { GlobalKanbanStateContext } from "./store/KanbanContext";
+import Login from "./pages/Login";
 function App() {
   const [globalState, setGlobalState] = useContext(GlobalKanbanStateContext);
 
@@ -20,9 +21,10 @@ function App() {
   console.log(globalState);
   return (
     <>
-      <SidebarWithHeader>
-        <Boards />
-      </SidebarWithHeader>
+      <Login />
+      {/*<SidebarWithHeader>*/}
+      {/*  <Boards />*/}
+      {/*</SidebarWithHeader>*/}
     </>
   );
 }
