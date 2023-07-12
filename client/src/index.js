@@ -6,16 +6,19 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { GlobalKanbanStateProvider } from "./store/KanbanContext";
 import { GlobalSwimLaneStateProvider } from "./store/SwimLaneConetext";
 import { GlobalCurrentKanbanStateProvider } from "./store/CurrentKanbanContext";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <GlobalKanbanStateProvider>
-    <GlobalSwimLaneStateProvider>
-      <GlobalCurrentKanbanStateProvider>
-        <ChakraProvider>
-          <App />
-        </ChakraProvider>
-      </GlobalCurrentKanbanStateProvider>
-    </GlobalSwimLaneStateProvider>
-  </GlobalKanbanStateProvider>
+  <BrowserRouter>
+    <GlobalKanbanStateProvider>
+      <GlobalSwimLaneStateProvider>
+        <GlobalCurrentKanbanStateProvider>
+          <ChakraProvider>
+            <App />
+          </ChakraProvider>
+        </GlobalCurrentKanbanStateProvider>
+      </GlobalSwimLaneStateProvider>
+    </GlobalKanbanStateProvider>
+  </BrowserRouter>
 );
