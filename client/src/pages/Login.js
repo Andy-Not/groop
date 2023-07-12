@@ -12,8 +12,37 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import axios from "axios";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [jwt, setJwt] = useLocalStorage("", "jwt");
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .post("/api/auth/login", {
+        username: username,
+        password: password,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          return Promise.all([res, res.headers]);
+        } else {
+          return Promise.reject("Invalid username or password");
+        }
+      })
+      .then(([body, headers]) => {
+        setJwt(headers.get("authorization"));
+      })
+      .catch((message) => {
+        alert(message);
+      });
+  };
+
   return (
     <Flex
       minH={"100vh"}
@@ -35,13 +64,25 @@ const Login = () => {
           p={8}
         >
           <Stack spacing={4}>
-            <FormControl id="email">
+            <FormControl id="username">
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input
+                value={username}
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                }}
+                type="text"
+              />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input type="password" />
+              <Input
+                value={password}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+                type="password"
+              />
             </FormControl>
             <Stack spacing={10}>
               <Stack
@@ -58,6 +99,7 @@ const Login = () => {
                 _hover={{
                   bg: "blue.500",
                 }}
+                onClick={onSubmit}
               >
                 Sign in
               </Button>
