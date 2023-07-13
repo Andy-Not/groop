@@ -37,6 +37,7 @@ const Login = () => {
       })
       .then(([body, headers]) => {
         setJwt(headers.get("authorization"));
+        window.location.href = "/dashboard";
       })
       .catch((message) => {
         alert(message);
