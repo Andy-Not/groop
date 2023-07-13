@@ -20,23 +20,23 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [jwt, setJwt] = useLocalStorage("", "jwt");
-  useEffect(() => {
-    if (!jwt) {
-      const rqBody = { username: "andy", password: "password" };
-      fetch("api/auth/login", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "post",
-        body: JSON.stringify(rqBody),
-      })
-        .then((response) => Promise.all([response.json(), response.headers]))
-        .then(([body, headers]) => {
-          setJwt(headers.get("authorization"));
-          console.log(body);
-        });
-    }
-  }, [jwt, setJwt]);
+  // useEffect(() => {
+  //   if (!jwt) {
+  //     const rqBody = { username: "andy", password: "password" };
+  //     fetch("api/auth/login", {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       method: "post",
+  //       body: JSON.stringify(rqBody),
+  //     })
+  //       .then((response) => Promise.all([response.json(), response.headers]))
+  //       .then(([body, headers]) => {
+  //         setJwt(headers.get("authorization"));
+  //         console.log(body);
+  //       });
+  //   }
+  // }, [jwt, setJwt]);
 
   console.log(jwt);
   const handleShowClick = () => {
