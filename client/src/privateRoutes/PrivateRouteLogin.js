@@ -22,6 +22,7 @@ const PrivateRouteLogin = ({ children }) => {
           setIsLoading(false);
         });
     } else {
+      setJwt("");
       setIsLoading(false);
     }
   }, [jwt]);
