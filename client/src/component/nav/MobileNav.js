@@ -24,7 +24,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const MobileNav = ({ onOpen, ...rest }) => {
   const [currentKanban] = useContext(GlobalCurrentKanbanStateContext);
-  const [localKanban, setLocalKanban] = useLocalStorage({}, "currentKanban");
+  const [jwt, setJwt] = useLocalStorage("", "jwt");
 
   return (
     <>
@@ -100,7 +100,14 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 <MenuItem>Profile</MenuItem>
                 <MenuItem>Settings</MenuItem>
                 <MenuDivider />
-                <MenuItem>Sign out</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setJwt("");
+                    window.location.href = "/login";
+                  }}
+                >
+                  Sign out
+                </MenuItem>
               </MenuList>
             </Menu>
           </Flex>
