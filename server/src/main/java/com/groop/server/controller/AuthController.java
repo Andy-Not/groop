@@ -3,6 +3,7 @@ package com.groop.server.controller;
 import com.groop.server.model.User;
 import com.groop.server.dto.AuthCredentialsRequest;
 import com.groop.server.util.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -41,6 +43,16 @@ public class AuthController {
                     .body(user);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<?> jwtValidation(@RequestParam String token, @AuthenticationPrincipal User user){
+        try{
+            Boolean isTokenValid = JwtUtil.validateToken(token,user);
+            return ResponseEntity.ok(isTokenValid);
+        }catch (ExpiredJwtException e) {
+            return ResponseEntity.ok(false);
         }
     }
 }
