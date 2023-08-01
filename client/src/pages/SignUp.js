@@ -29,6 +29,11 @@ const SignUp = () => {
         username: username,
         password: password,
       })
+      .then((response) => {
+        if (response.status === 202) {
+          window.location.href = "/login";
+        }
+      })
       .catch((e) => {
         setErrorMSG(e.response.data);
       });

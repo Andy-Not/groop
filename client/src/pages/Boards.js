@@ -1,5 +1,5 @@
 import Board from "../component/Board";
-import { HStack, Text, Box } from "@chakra-ui/react";
+import { HStack, Text } from "@chakra-ui/react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useContext } from "react";
 import { GlobalSwimLaneStateContext } from "../store/SwimLaneConetext";

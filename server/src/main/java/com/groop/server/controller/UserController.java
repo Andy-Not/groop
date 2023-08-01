@@ -26,7 +26,7 @@ public class UserController {
             return new ResponseEntity<>("username is taken", HttpStatus.BAD_REQUEST);
 
         if (!userService.isPasswordValid(password))
-            return new ResponseEntity<>("weak password", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("password must be at least 6 digits, must have a special character and a uppercase letter and a lowercase", HttpStatus.BAD_REQUEST);
 
 
         userService.createNewUser(username, password);
