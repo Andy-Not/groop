@@ -7,7 +7,7 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -54,8 +54,8 @@ const Home = () => {
             >
               Login
             </Button>
-            <Button isDisabled rounded={"full"}>
-              Create a account
+            <Button rounded={"full"}>
+              <Link to={"/signup"}>Create a account</Link>
             </Button>
           </Stack>
         </Stack>

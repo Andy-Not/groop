@@ -12,7 +12,7 @@ import Task from "./Task";
 import TaskModal from "./TaskModal";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
-const Board = ({ id, swimLaneID, kanban }) => {
+const Board = ({ swimLaneID, kanban }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
