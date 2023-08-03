@@ -2,11 +2,16 @@ package com.groop.server.controller;
 
 import com.groop.server.dto.SignUpDTO;
 import com.groop.server.dto.UserDTO;
+import com.groop.server.model.User;
+import com.groop.server.repository.UserRepository;
 import com.groop.server.service.UserService;
+import com.groop.server.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 /**
  * @author joandy alejo garcia
@@ -16,6 +21,20 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
+
+
+    @GetMapping("/findUser")
+    public ResponseEntity<?> findUserByJWT(@RequestParam String token){
+        String username = JwtUtil.getUsernameFromToken(token);
+        System.out.println(token);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent())
+            return new ResponseEntity<>(userService.userToDTO(optionalUser.get()),HttpStatus.OK);
+        return new ResponseEntity<>("something went wrong", HttpStatus.BAD_REQUEST);
+    }
 
     @PostMapping("/newUser")
     public ResponseEntity<?> createNewUser(@RequestBody SignUpDTO signUp){
