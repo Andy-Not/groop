@@ -29,12 +29,12 @@ public class UserController {
     @GetMapping("/findUser")
     public ResponseEntity<?> findUserByJWT(@RequestParam String token){
         String username = JwtUtil.getUsernameFromToken(token);
-        System.out.println(token);
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent())
             return new ResponseEntity<>(userService.userToDTO(optionalUser.get()),HttpStatus.OK);
         return new ResponseEntity<>("something went wrong", HttpStatus.BAD_REQUEST);
     }
+
 
     @PostMapping("/newUser")
     public ResponseEntity<?> createNewUser(@RequestBody SignUpDTO signUp){
@@ -50,6 +50,5 @@ public class UserController {
 
         userService.createNewUser(username, password);
         return new ResponseEntity<>("new user has been created", HttpStatus.ACCEPTED);
-
     }
 }

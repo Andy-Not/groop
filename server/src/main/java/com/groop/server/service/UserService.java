@@ -30,6 +30,10 @@ public class UserService {
         return optionalUser.isEmpty();
     }
 
+    public void deleteUser(User user){
+        userRepository.delete(user);
+    }
+
     public boolean isPasswordValid(String password) {
         int minLength = 6;
 
