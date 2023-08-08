@@ -1,5 +1,6 @@
 package com.groop.server.service;
 
+import com.groop.server.dto.UserDTO;
 import com.groop.server.model.User;
 import com.groop.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,19 @@ public class UserService {
     UserRepository userRepository;
 
 
-
+    public UserDTO userToDTO(User user){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        return userDTO;
+    }
     public boolean isUsernameValid(String username){
         Optional<User> optionalUser = userRepository.findByUsername(username);
         return optionalUser.isEmpty();
+    }
+
+    public void deleteUser(User user){
+        userRepository.delete(user);
     }
 
     public boolean isPasswordValid(String password) {

@@ -8,7 +8,7 @@ import {
 import SidebarContent from "./SidebarContent";
 import MobileNav from "./MobileNav";
 
-const SidebarWithHeader = ({ children, kanbansL }) => {
+const SidebarWithHeader = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.900", "gray.900")}>

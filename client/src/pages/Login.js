@@ -30,6 +30,7 @@ const Login = () => {
       })
       .then((res) => {
         if (res.status === 200) {
+          console.log(res);
           return Promise.all([res, res.headers]);
         } else {
           return Promise.reject("Invalid username or password");
@@ -66,7 +67,7 @@ const Login = () => {
         >
           <Stack spacing={4}>
             <FormControl id="username">
-              <FormLabel>Email address</FormLabel>
+              <FormLabel>Username</FormLabel>
               <Input
                 value={username}
                 onChange={(event) => {

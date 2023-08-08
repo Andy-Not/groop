@@ -24,10 +24,13 @@ import { useContext, useState } from "react";
 import { GlobalKanbanStateContext } from "../../store/KanbanContext";
 import axios from "axios";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { CurrentUserStateContext } from "../../store/CurrentUserConetext";
 
 const SidebarContent = ({ navOnClose, kanbans, ...rest }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [globalState, setGlobalState] = useContext(GlobalKanbanStateContext);
+  const [currentUser] = useContext(CurrentUserStateContext);
+
   const [kanbanTitle, setKanbanTitle] = useState("");
   const [swimLane, setSwimLane] = useLocalStorage({}, "swimLane");
 
@@ -41,7 +44,7 @@ const SidebarContent = ({ navOnClose, kanbans, ...rest }) => {
     axios
       .post("api/kanban/createKanban", {
         //owner is temporarily hard coded
-        owner_id: 1,
+        owner_id: currentUser,
         title: kanbanTitle,
       })
       .then((res) => {

@@ -79,9 +79,13 @@ public class KanbanController {
     }
 
     @GetMapping("getAllKanban")
-    ResponseEntity<?> getAllKanban(){
+    ResponseEntity<?> getAllKanban(@RequestParam Long userID){
+        Optional<User> optionalUser = userService.findById(userID);
         try {
-            return new ResponseEntity<>(kanbanService.findAllKanban(),HttpStatus.ACCEPTED);
+            if (optionalUser.isPresent()){
+                return new ResponseEntity<>(kanbanService.findAllUserKanban(optionalUser.get()),HttpStatus.OK);
+            }
+            return new ResponseEntity<>("user not found", HttpStatus.NOT_FOUND);
         }catch (Exception e){
             return errorMessage();
         }
