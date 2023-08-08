@@ -22,9 +22,12 @@ import { useContext, useEffect, useState } from "react";
 import { GlobalCurrentKanbanStateContext } from "../../store/CurrentKanbanContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import axios from "axios";
+import { CurrentUserStateContext } from "../../store/CurrentUserConetext";
 
 const MobileNav = ({ onOpen, ...rest }) => {
   const [currentKanban] = useContext(GlobalCurrentKanbanStateContext);
+  const [currentUser, setCurrentUser] = useContext(CurrentUserStateContext);
+
   const [username, setUsername] = useState("");
   const [jwt, setJwt] = useLocalStorage("", "jwt");
   useEffect(() => {
@@ -109,12 +112,19 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 bg={useColorModeValue("white", "gray.900")}
                 borderColor={useColorModeValue("gray.200", "gray.700")}
               >
-                <MenuItem>Profile</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    console.log(currentUser);
+                  }}
+                >
+                  Profile
+                </MenuItem>
                 <MenuItem>Settings</MenuItem>
                 <MenuDivider />
                 <MenuItem
                   onClick={() => {
                     setJwt("");
+                    setCurrentUser(null);
                     window.location.href = "/login";
                   }}
                 >

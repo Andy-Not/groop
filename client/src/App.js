@@ -9,14 +9,17 @@ import { useContext, useEffect } from "react";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import axios from "axios";
 import { GlobalKanbanStateContext } from "./store/KanbanContext";
+import { CurrentUserStateContext } from "./store/CurrentUserConetext";
 function App() {
   const [globalState, setGlobalState] = useContext(GlobalKanbanStateContext);
+  const [currentUser, setCurrentUser] = useContext(CurrentUserStateContext);
   const [jwt] = useLocalStorage("", "jwt");
   useEffect(() => {
     if (jwt !== "") {
       axios.get(`/api/user/findUser?token=${jwt}`).then((res) => {
         console.log("called in app");
         if (res.status === 200) {
+          setCurrentUser(res.data.id);
           try {
             axios
               .get(`/api/kanban/getAllKanban?userID=${res.data.id}`)
