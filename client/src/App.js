@@ -9,10 +9,12 @@ import { useContext, useEffect } from "react";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import axios from "axios";
 import { GlobalKanbanStateContext } from "./store/KanbanContext";
-import { CurrentUserStateContext } from "./store/CurrentUserConetext";
+import { GlobalCurrentUserStateContext } from "./store/CurrentUserContext";
 function App() {
   const [globalState, setGlobalState] = useContext(GlobalKanbanStateContext);
-  const [currentUser, setCurrentUser] = useContext(CurrentUserStateContext);
+  const [currentUser, setCurrentUser] = useContext(
+    GlobalCurrentUserStateContext
+  );
   const [jwt] = useLocalStorage("", "jwt");
   useEffect(() => {
     if (jwt !== "") {
@@ -36,7 +38,7 @@ function App() {
         }
       });
     }
-  }, [jwt]);
+  }, [jwt, setCurrentUser, setGlobalState]);
   return (
     <>
       <Routes>
@@ -54,7 +56,6 @@ function App() {
           }
         />
       </Routes>
-      {/*<Login />*/}
     </>
   );
 }

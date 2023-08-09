@@ -24,12 +24,12 @@ import { useContext, useState } from "react";
 import { GlobalKanbanStateContext } from "../../store/KanbanContext";
 import axios from "axios";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { CurrentUserStateContext } from "../../store/CurrentUserConetext";
+import { GlobalCurrentUserStateContext } from "../../store/CurrentUserContext";
 
 const SidebarContent = ({ navOnClose, kanbans, ...rest }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [globalState, setGlobalState] = useContext(GlobalKanbanStateContext);
-  const [currentUser] = useContext(CurrentUserStateContext);
+  const [currentUser] = useContext(GlobalCurrentUserStateContext);
 
   const [kanbanTitle, setKanbanTitle] = useState("");
   const [swimLane, setSwimLane] = useLocalStorage({}, "swimLane");

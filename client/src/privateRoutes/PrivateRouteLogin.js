@@ -7,17 +7,15 @@ const PrivateRouteLogin = ({ children }) => {
   const [jwt, setJwt] = useLocalStorage("", "jwt");
   const [isLoading, setIsLoading] = useState(true);
   const [isValid, setIsValid] = useState(null);
-  console.log("compoent");
 
   useEffect(() => {
     if (jwt) {
-      console.log("outfetch");
       axios
         .get(`/api/auth/validate?token=${jwt}`, {
           headers: { Authorization: `Bearer ${jwt}` },
         })
         .then((isValid) => {
-          console.log(isValid);
+          console.log("call in priv route");
           setIsValid(isValid);
           setIsLoading(false);
         });

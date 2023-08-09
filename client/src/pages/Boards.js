@@ -47,7 +47,6 @@ const Boards = () => {
     GlobalSwimLaneStateContext
   );
   const [globalKanban] = useContext(GlobalKanbanStateContext);
-  console.log("RELOAD");
   return (
     <>
       <HStack maxW={"full"} overflow={"scroll"}>
