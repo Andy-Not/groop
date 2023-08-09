@@ -7,6 +7,7 @@ import { GlobalKanbanStateProvider } from "./store/KanbanContext";
 import { GlobalSwimLaneStateProvider } from "./store/SwimLaneConetext";
 import { GlobalCurrentKanbanStateProvider } from "./store/CurrentKanbanContext";
 import { BrowserRouter } from "react-router-dom";
+import { CurrentUserStateContextProvider } from "./store/CurrentUserConetext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,9 +15,11 @@ root.render(
     <GlobalKanbanStateProvider>
       <GlobalSwimLaneStateProvider>
         <GlobalCurrentKanbanStateProvider>
-          <ChakraProvider>
-            <App />
-          </ChakraProvider>
+          <CurrentUserStateContextProvider>
+            <ChakraProvider>
+              <App />
+            </ChakraProvider>
+          </CurrentUserStateContextProvider>
         </GlobalCurrentKanbanStateProvider>
       </GlobalSwimLaneStateProvider>
     </GlobalKanbanStateProvider>

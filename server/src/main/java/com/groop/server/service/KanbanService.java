@@ -18,8 +18,6 @@ import java.util.*;
 @Service
 public class KanbanService {
    @Autowired
-    private KanbanSwimLaneRepository kanbanSwimLaneRepository;
-   @Autowired
    private SwimLaneService swimLaneService;
 
    @Autowired
@@ -40,20 +38,14 @@ public class KanbanService {
         return kanbanRepository.findById(kanban_id).isEmpty() ? Optional.empty() :  kanbanRepository.findById(kanban_id);
     }
 
-    public List<KanbanDTO> findAllKanban() {
+    public List<KanbanDTO> findAllUserKanban(User user) {
         List<KanbanDTO> kanbans = new ArrayList<>();
-        List<KanbanSwimLane> swimLanes = kanbanSwimLaneRepository.findAll();
-
         for (Kanban kanban : kanbanRepository.findAll()) {
-            List<SwimLaneDTO> kanbanSwimLanes = new LinkedList<>();
-            for (KanbanSwimLane swimLane : swimLanes) {
-                SwimLaneDTO swimLaneDTO = swimLaneService.covertSwimLaneToDTO(swimLane);
-                if (Objects.equals(swimLane.getKanban().getId(), kanban.getId())){
-                    kanbanSwimLanes.add(swimLaneDTO);
-                }
+            if (Objects.equals(kanban.getOwner().getId(), user.getId()) || kanban.getUsers().contains(user)){
+                List<SwimLaneDTO> swimLaneDTOS = swimLaneService.findAllSwimLanesByKanbanId(kanban.getId());
+                KanbanDTO kanbanDTO = covertKanbanToDTO(kanban, swimLaneDTOS);
+                kanbans.add(kanbanDTO);
             }
-            KanbanDTO kanbanDTO = covertKanbanToDTO(kanban, kanbanSwimLanes);
-            kanbans.add(kanbanDTO);
         }
         return kanbans;
     }

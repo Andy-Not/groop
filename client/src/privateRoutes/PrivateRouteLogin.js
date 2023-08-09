@@ -25,7 +25,7 @@ const PrivateRouteLogin = ({ children }) => {
       setJwt("");
       setIsLoading(false);
     }
-  }, [jwt]);
+  }, [jwt, setJwt]);
 
   return isLoading === true ? (
     <div>loading..</div>
