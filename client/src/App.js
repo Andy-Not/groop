@@ -33,6 +33,8 @@ function App() {
                 setGlobalState(allKanbans);
               });
           } catch (e) {
+            console.log(globalState);
+            console.log(currentUser);
             console.log(e);
           }
         }

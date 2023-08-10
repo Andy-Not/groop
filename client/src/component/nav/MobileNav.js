@@ -151,7 +151,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
           </AvatarGroup>
           <Divider orientation={"vertical"} />
           <ButtonMenu id={currentKanban.id}>
-            <Button>settings</Button>
+            <Button isDisabled={currentUser !== currentKanban.owner_id}>
+              settings
+            </Button>
           </ButtonMenu>
         </HStack>
       </Flex>
