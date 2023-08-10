@@ -22,11 +22,13 @@ import { useContext, useEffect, useState } from "react";
 import { GlobalCurrentKanbanStateContext } from "../../store/CurrentKanbanContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import axios from "axios";
-import { CurrentUserStateContext } from "../../store/CurrentUserConetext";
+import { GlobalCurrentUserStateContext } from "../../store/CurrentUserContext";
 
 const MobileNav = ({ onOpen, ...rest }) => {
   const [currentKanban] = useContext(GlobalCurrentKanbanStateContext);
-  const [currentUser, setCurrentUser] = useContext(CurrentUserStateContext);
+  const [currentUser, setCurrentUser] = useContext(
+    GlobalCurrentUserStateContext
+  );
 
   const [username, setUsername] = useState("");
   const [jwt, setJwt] = useLocalStorage("", "jwt");
@@ -149,7 +151,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
           </AvatarGroup>
           <Divider orientation={"vertical"} />
           <ButtonMenu id={currentKanban.id}>
-            <Button>settings</Button>
+            <Button isDisabled={currentUser !== currentKanban.owner_id}>
+              settings
+            </Button>
           </ButtonMenu>
         </HStack>
       </Flex>

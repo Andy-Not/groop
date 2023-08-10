@@ -7,7 +7,7 @@ import { GlobalKanbanStateProvider } from "./store/KanbanContext";
 import { GlobalSwimLaneStateProvider } from "./store/SwimLaneConetext";
 import { GlobalCurrentKanbanStateProvider } from "./store/CurrentKanbanContext";
 import { BrowserRouter } from "react-router-dom";
-import { CurrentUserStateContextProvider } from "./store/CurrentUserConetext";
+import { CurrentUserStateContextProvider } from "./store/CurrentUserContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
