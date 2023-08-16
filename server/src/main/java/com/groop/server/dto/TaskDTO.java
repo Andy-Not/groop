@@ -12,6 +12,8 @@ public class TaskDTO {
 
     private String description;
 
+    private Long swimLaneID;
+
     private TaskStatus status;
 
     private String title;
