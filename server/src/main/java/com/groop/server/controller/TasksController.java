@@ -37,6 +37,17 @@ public class TasksController {
         }
     }
 
+    @PutMapping("moveTaskTo/{swimLaneID}")
+    public ResponseEntity<?> moveTaskToSwimLane(@PathVariable Long swimLaneID, @RequestParam Long taskID){
+        Optional<KanbanSwimLane> optionalKanbanSwimLane = swimLaneService.findSwimLaneById(swimLaneID);
+        Optional<Task> optionalTask = taskService.findTask(taskID);
+        if (optionalKanbanSwimLane.isPresent() && optionalTask.isPresent()){
+            return new ResponseEntity<>(taskService.moveTask(optionalTask.get(), optionalKanbanSwimLane.get()), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("task or swim lane does not exist", HttpStatus.NOT_FOUND);
+
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable Long id){
         Optional<Task> optionalTask = taskService.findTask(id);
