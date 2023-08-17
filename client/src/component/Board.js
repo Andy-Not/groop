@@ -18,6 +18,7 @@ const Board = ({ swimLaneID, kanban }) => {
     <>
       <Box
         key={swimLaneID}
+        id={swimLaneID}
         _hover={{ cursor: "pointer" }}
         sx={{
           backgroundColor: "#f2f2f2",

@@ -1,3 +1,5 @@
+import React, { useContext, useState } from "react";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -12,12 +14,23 @@ import {
   Textarea,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import axios from "axios";
+import { GlobalCurrentKanbanStateContext } from "../store/CurrentKanbanContext";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { GlobalSwimLaneStateContext } from "../store/SwimLaneConetext";
 
 const TaskModal = ({ swimLaneID, isOpen, onClose }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [currentKanban, setCurrentKanban] = useContext(
+    GlobalCurrentKanbanStateContext
+  );
+  const [currentSwimLane, setCurrentSwimLane] = useContext(
+    GlobalSwimLaneStateContext
+  );
+  const [localSwimLane, setLocalSwimLane] = useLocalStorage(
+    currentSwimLane,
+    "swimLane"
+  );
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -27,17 +40,33 @@ const TaskModal = ({ swimLaneID, isOpen, onClose }) => {
     setDescription(event.target.value);
   };
 
-  const handleOnSubmit = (event) => {
+  const handleOnSubmit = async (event) => {
     event.preventDefault();
-    axios
-      .post(`api/task/addNewTask/${swimLaneID}`, {
+    try {
+      const response = await axios.post(`api/task/addNewTask/${swimLaneID}`, {
         title: title,
         description: description,
         status: "DONE",
-      })
-      .then((e) => {
-        console.log(e.data);
       });
+
+      const updatedKanban = { ...currentKanban };
+      const updatedSwimLane = { ...currentSwimLane };
+
+      for (let i = 0; i < updatedKanban.swimLanes.length; i++) {
+        if (updatedKanban.swimLanes[i].id.toString() === swimLaneID) {
+          updatedKanban.swimLanes[i].tasks.push(response.data);
+          updatedSwimLane[swimLaneID].tasks.push(response.data);
+        }
+      }
+
+      setCurrentKanban(updatedKanban);
+      setCurrentSwimLane(updatedSwimLane);
+
+      setLocalSwimLane(updatedSwimLane);
+    } catch (error) {
+      console.log(localSwimLane);
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -80,4 +109,5 @@ const TaskModal = ({ swimLaneID, isOpen, onClose }) => {
     </Modal>
   );
 };
+
 export default TaskModal;

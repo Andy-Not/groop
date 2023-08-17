@@ -11,36 +11,38 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { GlobalCurrentKanbanStateContext } from "../../store/CurrentKanbanContext";
 import { GlobalSwimLaneStateContext } from "../../store/SwimLaneConetext";
+import { GlobalCurrentUserStateContext } from "../../store/CurrentUserContext";
 
 const ButtonMenu = ({ id, children }) => {
   const [laneData, setLaneData] = useLocalStorage({}, "swimLane");
   const [localKanban, setLocalKanban] = useLocalStorage({}, "currentKanban");
-  const [menuIsHidden, setMenuIsHidden] = useState(false);
   const [currentKanban, setCurrentKanban] = useContext(
     GlobalCurrentKanbanStateContext
   );
   const [currentSwimLane, setCurrentSwimLane] = useContext(
     GlobalSwimLaneStateContext
   );
+  const [currentUser] = useContext(GlobalCurrentUserStateContext);
 
   const delKanban = () => {
-    axios.delete(`/api/kanban/${id}`).then((res) => {
-      console.log(res);
-      console.log(laneData);
-    });
-    setLaneData({});
-    document.getElementById(id).remove();
-    setMenuIsHidden(true);
-    setCurrentKanban({});
-    setCurrentSwimLane({});
-    setLocalKanban({});
+    console.log(currentKanban);
+    if (currentKanban.owner_id === currentUser) {
+      axios.delete(`/api/kanban/${id}`).then((res) => {
+        console.log(res);
+        console.log(laneData);
+      });
+      document.getElementById(id).remove();
+      setLaneData({});
+      setCurrentKanban({});
+      setCurrentSwimLane({});
+      setLocalKanban({});
+    }
   };
   return (
     <Flex
-      display={menuIsHidden ? "none" : "flex"}
       align="center"
       _hover={{
         bg: "cyan.400",
