@@ -1,7 +1,6 @@
 package com.groop.server.controller;
 
 import com.groop.server.dto.SignUpDTO;
-import com.groop.server.dto.UserDTO;
 import com.groop.server.model.User;
 import com.groop.server.repository.UserRepository;
 import com.groop.server.service.UserService;
@@ -25,7 +24,6 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-
     @GetMapping("/findUser")
     public ResponseEntity<?> findUserByJWT(@RequestParam String token){
         String username = JwtUtil.getUsernameFromToken(token);
@@ -38,17 +36,17 @@ public class UserController {
 
     @PostMapping("/newUser")
     public ResponseEntity<?> createNewUser(@RequestBody SignUpDTO signUp){
+        String email = signUp.getEmail();
         String username = signUp.getUsername();
         String password = signUp.getPassword();
 
-        if (!userService.isUsernameValid(username))
-            return new ResponseEntity<>("username is taken", HttpStatus.BAD_REQUEST);
-
+        if (!userService.isUsernameAvailable(username))
+            return new ResponseEntity<>("username is already in use", HttpStatus.BAD_REQUEST);
         if (!userService.isPasswordValid(password))
             return new ResponseEntity<>("password must be at least 6 digits, must have a special character and a uppercase letter and a lowercase", HttpStatus.BAD_REQUEST);
 
 
-        userService.createNewUser(username, password);
+        userService.createNewUser(email, username, password);
         return new ResponseEntity<>("new user has been created", HttpStatus.ACCEPTED);
     }
 }

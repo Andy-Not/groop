@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 /**
  * @author joandy alejo garcia
  */
@@ -18,6 +16,11 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+
+    private static final int MIN_PASSWORD_LENGTH = 6;
+
 
     public UserDTO userToDTO(User user){
         UserDTO userDTO = new UserDTO();
@@ -25,9 +28,12 @@ public class UserService {
         userDTO.setUsername(user.getUsername());
         return userDTO;
     }
-    public boolean isUsernameValid(String username){
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-        return optionalUser.isEmpty();
+    public boolean isUsernameAvailable(String username){
+        return userRepository.findByUsername(username).isEmpty();
+    }
+
+    public boolean isEmailInUse(String email){
+        return userRepository.findByEmail(email).isPresent();
     }
 
     public void deleteUser(User user){
@@ -35,36 +41,21 @@ public class UserService {
     }
 
     public boolean isPasswordValid(String password) {
-        int minLength = 6;
-
-        if (password.length() < minLength) {
-            return false;
-        }
-
-        if (!password.matches(".*[A-Z].*")) {
-            return false;
-        }
-
-        if (!password.matches(".*[a-z].*")) {
-            return false;
-        }
-
-        if (!password.matches(".*\\d.*")) {
-            return false;
-        }
-
-        if (!password.matches(".*[^a-zA-Z0-9].*")) {
-            return false;
-        }
-
-        return true;
+        return password.length() >= MIN_PASSWORD_LENGTH
+                && password.matches(".*[A-Z].*")
+                && password.matches(".*[a-z].*")
+                && password.matches(".*\\d.*")
+                && password.matches(".*[^a-zA-Z0-9].*");
     }
 
-    public void createNewUser(String username, String password){
-        String encodedPassword = new BCryptPasswordEncoder().encode(password);
+    public UserDTO createNewUser(String email,String username, String password){
         User user = new User();
+        user.setEmail(email.toLowerCase());
         user.setUsername(username);
-        user.setPassword(encodedPassword);
+        user.setPasswordHash(passwordEncoder.encode(password));
+        User savedUser = userRepository.save(user);
+        user.setRole("member");
         userRepository.save(user);
+        return userToDTO(savedUser);
     }
 }
